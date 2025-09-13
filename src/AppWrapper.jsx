@@ -1,7 +1,10 @@
-import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import App from "./App";
 
 const AppWrapper = () => {
-    return <div></div>
+    return <Router>
+        <App />
+    </Router>
 }
 
 export default AppWrapper;
