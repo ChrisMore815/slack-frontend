@@ -5,8 +5,10 @@ import { useRoutes } from "react-router-dom";
 import SignIn from '../pages/auth/SignIn';
 import SignUp from '../pages/auth/SignUp'
 import Icons from "../pages/icon/Icons";
+import NotFound from "../pages/NotFound";
 
 const appRoutes = [
+    { path: "*", element: <NotFound /> },
     {
         path: '/', children: [
             { path: '/', element: <SignIn /> },

@@ -1,9 +1,10 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../libs/axios';
-import { toast } from "react-toastify";
+// import toast from '../libs/toast'
+import { toast } from 'react-toastify';
 
-export const AuthContext = createContext({});
+export const AuthContext = createContext();
 
 const AuthProvider = (props) => {
 
@@ -11,27 +12,25 @@ const AuthProvider = (props) => {
 
 	const [token, setToken] = useState("");
 	const [auth, setAuth] = useState({
-		name: "",
+		id: "",
 		email: "",
 		avatar: "",
+		username: "",
 	})
 
 	const signup = async (data) => {
 		try {
-			const response = await api.post('/auth/signup', data);
+			const response = await api.post('/auth/signup', data/* , { headers: { "Content-Type": "multipart/form-data" } } */);
 			if (response.status == 200) {
-				toast.success("SignUp Success");
+				// toast.success("SignUp Success")
+				toast("SignUp success", { type: "success" })
 				setAuth({ ...response.data.payload });
 				router('/');
 			} else {
 				toast.error(response.data.message);
 			}
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				toast.error(response.data.message);
-			} else {
-				toast.error(error.message);
-			}
+			toast.error(error.message);
 		}
 	}
 
@@ -40,19 +39,20 @@ const AuthProvider = (props) => {
 			const response = await api.post('/auth/signin', data);
 			if (response.status == 200) {
 				toast.success("SignIn Success");
-				localStorage.setItem('token', response.data.payload);
-				setToken(response.data.payload);
+				localStorage.setItem('token', response.data.token);
+				setToken(response.data.token);
 				checkAuth();
 			} else {
 				toast.error(response.data.message);
 			}
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				toast.error(response.data.message);
-			} else {
-				toast.error(error.message);
-			}
+			toast.error(error.message);
 		}
+	}
+
+	const logOut = () => {
+		setToken('');
+		setAuth({});
 	}
 
 	const checkAuth = async () => {
@@ -61,19 +61,13 @@ const AuthProvider = (props) => {
 			if (!localToken) return router('/');
 			api.defaults.headers.common['Authorization'] = "Bearer " + localToken;
 			const response = await api.get('/auth/checkAuth');
+			console.log(response)
 			if (response.status == 200) {
-				localStorage.setItem('token', response.data.payload);
-				setToken(response.data.payload);
+				setAuth(response.data.user)
 				router('/slack');
-			} else {
-				toast.error(response.data.message);
 			}
 		} catch (error) {
-			if (error instanceof AxiosError) {
-				toast.error(response.data.message);
-			} else {
-				toast.error(error.message);
-			}
+			logOut();
 		}
 	}
 

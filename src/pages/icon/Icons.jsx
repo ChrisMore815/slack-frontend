@@ -7,7 +7,7 @@ const Icons = () => {
         <Flex wrap={'wrap'} justify={"center"} align={"center"}>
             {Object.keys(FaIcons).map((item, index) => {
                 const FaIcon = FaIcons[item];
-                return <HStack key={index} minW={"400px"} gap={"10"} p={"12"}>
+                return <HStack key={index} minW={"400px"} gap={"10"} p={"4"}>
                     <Icon fontSize={"24px"}>
                         <FaIcon />
                     </Icon>
