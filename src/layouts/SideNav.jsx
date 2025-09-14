@@ -12,14 +12,14 @@ const statusList = [
 ]
 
 const SideNav = () => {
-    const { auth } = useContext(AuthContext);
+    const { auth, logOut } = useContext(AuthContext);
 
     const handleChangeStatus = (status) => {
         console.log(status);
-
+        if(status == -1) logOut()
     }
 
-    return <VStack w={"72px"} h={"100%"} p={"48px 8px 8px 8px"} justify={"space-between"}>
+    return <VStack w={"72px"} h={"100%"} p={"48px 14px 14px 14px"} justify={"space-between"}>
         <VStack gap={4} w={"full"}>
             {sidenav.map((item, index) => {
                 return (

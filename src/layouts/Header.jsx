@@ -1,6 +1,7 @@
 import { Button, HStack, Icon, Input } from '@chakra-ui/react';
 // import { useColorMode } from '@chakra-ui/react';
 import icons from '../constants/icons';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
     // const { colorMode, toggleColorMode } = useColorMode();
@@ -13,7 +14,9 @@ const Header = () => {
         </HStack>
         <HStack flex={"1 1 0"} color={'#fff'} justify={"space-between"} pr={1}>
             <Input p={"2px 32px 2px 8px"} type={"text"} w={"80%"} fontSize={"12px"} h={"28px"} fontStyle={"italic"} _placeholder={{ color: "#FFF8" }} borderRadius={4} bg={"#6a3f6a"} placeholder={"Search in dogstarcoin..."} _focus={{ border: "1px solid #fff8" }} />
-            <Icon fontSize={"18px"}>{icons.question}</Icon>
+            <Link to={"/service/icons"} target='_blank'>
+                <Icon fontSize={"18px"}>{icons.question}</Icon>
+            </Link>
         </HStack>
         {/* <Button onClick={toggleColorMode}>
             Toggle {colorMode === 'light'? 'Dark' : "Light"}

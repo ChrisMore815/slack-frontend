@@ -49,6 +49,7 @@ const AuthProvider = (props) => {
 	}
 
 	const logOut = () => {
+		localStorage.removeItem("token");
 		setToken('');
 		setAuth({});
 	}
@@ -76,7 +77,7 @@ const AuthProvider = (props) => {
 	}, [token]);
 
 	return (
-		<AuthContext.Provider value={{ ...props.value, auth, token, signup, signin }}>
+		<AuthContext.Provider value={{ ...props.value, auth, token, signup, signin, logOut }}>
 			{props.children}
 		</AuthContext.Provider>
 	)

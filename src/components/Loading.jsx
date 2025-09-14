@@ -1,5 +1,4 @@
 import { Flex, Spinner } from '@chakra-ui/react';
-import React from 'react';
 
 const Loading = () => {
     return <Flex w={"full"} h={"100vh"} justify={"center"} align={"center"}>
