@@ -1,6 +1,7 @@
 import { VStack, HStack, Text, Icon } from "@chakra-ui/react";
 import icons from "../../../constants/icons";
 import { useState } from "react";
+import CreateChannel from '../../../components/CreateChannel'
 import CreateDM from "../../../components/CreateDM";
 
 const SideBar = () => {

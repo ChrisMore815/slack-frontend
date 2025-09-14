@@ -46,7 +46,7 @@ const SideNav = () => {
                                 statusList.map((item, index) => {
                                     if (item.status !== auth.status) {
                                         return <HStack key={index} pos={'relative'} w={"100%"} p={2 } cursor={"pointer"} onClick={() => handleChangeStatus(item.status)}>
-                                            <Badge status={item.status} />
+                                            <Badge status={item.status} bottom={""} />
                                             <Text>{item.displayText}</Text>
                                         </HStack>
                                     }

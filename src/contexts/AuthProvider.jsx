@@ -1,7 +1,8 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../libs/axios';
- import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import propTypes from 'prop-types'
 
 export const AuthContext = createContext();
 
@@ -81,6 +82,11 @@ const AuthProvider = (props) => {
 			{props.children}
 		</AuthContext.Provider>
 	)
+}
+
+AuthProvidr.propTypes = {
+	value: propTypes.object,
+	children: propTypes.node.isRequired,
 }
 
 export default AuthProvider;
