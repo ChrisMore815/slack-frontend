@@ -14,6 +14,7 @@ const AuthProvider = (props) => {
 		id: "",
 		email: "",
 		avatar: "",
+		status: -2,
 		username: "",
 	})
 

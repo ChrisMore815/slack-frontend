@@ -3,9 +3,11 @@ import React from 'react';
 
 const Loading = () => {
     return <Flex w={"full"} h={"100vh"} justify={"center"} align={"center"}>
-        <Spinner pos={'fixed'} top={"50%"} left={"50%"} thickness={"8px"} size={"xl"} color={"linear-gradient"} speed={"0.7s"} />
-        <Spinner thickness={"6px"} size={"lg"} color={"green.500"} speed={"0.5s"} />
-        <Spinner thickness={"4px"} size={"lg"} color={"blue.500"} speed={"0.3s"} />
+        <Flex justify={"center"} pos={"relative"} align={"center"}>
+            <Spinner pos={"absolute"} thickness={"2px"} size={"xl"} p={"96px"} color={"purple.500"} speed={"1.7s"} />
+            <Spinner pos={"absolute"} thickness={"2px"} size={"xl"} p={"88px"} color={"green.500"} speed={"0.9s"} />
+            <Spinner pos={"absolute"} thickness={"2px"} size={"xl"} p={"80px"} color={"cyan.500"} speed={"0.5s"} />
+        </Flex>
     </Flex>
 }
 

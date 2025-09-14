@@ -6,12 +6,15 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { Suspense } from "react";
 import Loading from "./components/Loading";
+// import ThemeProvider from "./contexts/ThemeProvider";
 
 createRoot(document.getElementById("root")).render(
   <ChakraProvider>
-    <Suspense fallback={<Loading />}>
-      <ToastContainer />
-      <App />
-    </Suspense>
+    {/* <ThemeProvider> */}
+      <Suspense fallback={<Loading />}>
+        <ToastContainer />
+        <App />
+      </Suspense>
+    {/* </ThemeProvider> */}
   </ChakraProvider>
 ) 

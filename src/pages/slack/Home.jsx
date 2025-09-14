@@ -1,9 +1,12 @@
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box, Text, VStack, HStack } from "@chakra-ui/react";
+import SideBar from "./sidebar/SideBar";
+import Main from './main/Main'
 
 const Home = () => {
-    return <VStack color={"#fff"}>
-        <Text>Slack</Text>
-    </VStack>
+    return <HStack color={"#fff"} w={"100%"} h={"100%"}>
+        <SideBar />
+        <Main />
+    </HStack>
 }
 
 export default Home;
