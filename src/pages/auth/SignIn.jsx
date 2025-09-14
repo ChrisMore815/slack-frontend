@@ -7,18 +7,18 @@ import icons from "../../constants/icons";
 const SignIn = () => {
     const { signin } = useContext(AuthContext);
 
-    const [show, setShow] = useState(false)
+    const [show, setShow] = useState(false);
     const [data, setData] = useState({
         email: "",
         password: ""
-    })
+    });
 
     const handleChange = (e) => {
-        setData({ ...data, [e.target.name]: e.target.value })
+        setData({ ...data, [e.target.name]: e.target.value });
     }
 
     const handleShowPassword = () => {
-        setShow(!show)
+        setShow(!show);
     }
 
     const handleSignIn = () => {

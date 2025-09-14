@@ -1,21 +1,20 @@
-import React, { Children } from "react";
-
 import { useRoutes } from "react-router-dom";
 
-import SignIn from '../pages/auth/SignIn';
-import SignUp from '../pages/auth/SignUp'
-import Icons from "../pages/icon/Icons";
-import NotFound from "../pages/NotFound";
+import Page from '../pages'
+import Layouts from '../layouts'
 
 const appRoutes = [
-    { path: "*", element: <NotFound /> },
+    { path: "*", element: <Page.NotFound /> },
     {
         path: '/', children: [
-            { path: '/', element: <SignIn /> },
-            { path: "/auth/signup", element: <SignUp /> }
+            { path: '', element: <Page.Auth.SignIn /> },
+            { path: "auth/signup", element: <Page.Auth.SignUp /> },
+            { path: 'slack', element: <Layouts.MainLayout />, children: [
+                {path: '', element: <Page.Slack.Home />}
+            ] }
         ]
     },
-    { path: '/service/icons', element: <Icons /> }
+    { path: '/service/icons', element: <Page.Icons /> }
 ]
 
 const AppRoutes = () => {

@@ -1,1 +1,1 @@
-export const serverUrl = 'http://192.168.137.61:8080';
+export const serverUrl = process.env.REACT_APP_BASE_URL;

@@ -1,8 +1,7 @@
 import { createContext, useState, useEffect, ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../libs/axios';
-// import toast from '../libs/toast'
-import { toast } from 'react-toastify';
+ import { toast } from 'react-toastify';
 
 export const AuthContext = createContext();
 
@@ -22,7 +21,6 @@ const AuthProvider = (props) => {
 		try {
 			const response = await api.post('/auth/signup', data/* , { headers: { "Content-Type": "multipart/form-data" } } */);
 			if (response.status == 200) {
-				// toast.success("SignUp Success")
 				toast("SignUp success", { type: "success" })
 				setAuth({ ...response.data.payload });
 				router('/');
@@ -38,10 +36,9 @@ const AuthProvider = (props) => {
 		try {
 			const response = await api.post('/auth/signin', data);
 			if (response.status == 200) {
-				toast.success("SignIn Success");
+				toast("SignIn Success", { type: 'success' });
 				localStorage.setItem('token', response.data.token);
 				setToken(response.data.token);
-				checkAuth();
 			} else {
 				toast.error(response.data.message);
 			}
@@ -61,10 +58,11 @@ const AuthProvider = (props) => {
 			if (!localToken) return router('/');
 			api.defaults.headers.common['Authorization'] = "Bearer " + localToken;
 			const response = await api.get('/auth/checkAuth');
-			console.log(response)
 			if (response.status == 200) {
-				setAuth(response.data.user)
+				setAuth(response.data.user);
 				router('/slack');
+			} else {
+				logOut();
 			}
 		} catch (error) {
 			logOut();
@@ -72,9 +70,9 @@ const AuthProvider = (props) => {
 	}
 
 	useEffect(() => {
-		if (!token) checkAuth();
-	}, [token])
-
+		checkAuth();
+		//eslint-desable-next-line
+	}, [token]);
 
 	return (
 		<AuthContext.Provider value={{ ...props.value, auth, token, signup, signin }}>

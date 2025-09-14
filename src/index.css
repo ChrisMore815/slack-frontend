@@ -1,6 +1,6 @@
 * {
     box-sizing: border-box;
-    margin: 0;
+    margin: 0 !important;
 }
 
 body {
@@ -10,4 +10,5 @@ body {
 
 :root {
     --primary: #501e50;
+    --sidebar: 30%;
 }
