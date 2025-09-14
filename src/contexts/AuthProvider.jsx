@@ -21,8 +21,6 @@ const AuthProvider = (props) => {
 
 	const signup = async (data) => {
 		try {
-			console.log(data);
-			
 			const response = await api.post('/auth/signup', data/* , { headers: { "Content-Type": "multipart/form-data" } } */);
 			if (response.status == 200) {
 				toast("SignUp success", { type: "success" })
@@ -56,6 +54,7 @@ const AuthProvider = (props) => {
 		localStorage.removeItem("token");
 		setToken('');
 		setAuth({});
+		router('/')
 	}
 
 	const checkAuth = async () => {
@@ -81,7 +80,7 @@ const AuthProvider = (props) => {
 	}, [token]);
 
 	return (
-		<AuthContext.Provider value={{ ...props.value, auth, token, signup, signin, logOut }}>
+		<AuthContext.Provider value={{ ...props.value, auth, token, signup, signin, logOut, setAuth }}>
 			{props.children}
 		</AuthContext.Provider>
 	)

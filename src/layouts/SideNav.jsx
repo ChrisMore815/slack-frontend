@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Icon, VStack, Text, Popover, PopoverTrigger, Box, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Button, HStack } from '@chakra-ui/react';
 import Badge from '../components/Badge';
 import { sidenav } from './sidenavconstants';
 import BadgeAvatar from '../components/BadgeAvatar';
 import { AuthContext } from '../contexts/AuthProvider';
 import { SocketContext } from '../contexts/SocketProvider';
+import socketEvents from '../constants/socketEvents'
 
 const statusList = [
     { status: -1, displayText: "Logout" },
@@ -17,9 +18,9 @@ const SideNav = () => {
     const { auth, logOut } = useContext(AuthContext);
 
     const handleChangeStatus = (status) => {
-        console.log(status);
-        socket.emit(socketEvents.CHANGESTATUS, status);
-        // if (status == -1) logOut()
+        console.log(status)
+        if (status === -1) logOut();
+        socket.emit(`${socketEvents.CHANGESTATUS}`, { id: auth._id, status: status });
     }
 
     return <VStack w={"72px"} h={"100%"} p={"48px 14px 14px 14px"} justify={"space-between"}>
@@ -37,7 +38,7 @@ const SideNav = () => {
             <Popover>
                 <PopoverTrigger>
                     <Box w={"100%"}>
-                        <BadgeAvatar src={'default.gif'} status={1} />
+                        <BadgeAvatar src={'default.gif'} status={auth.status < 2 && auth.status > -2 ? auth.status : -1} />
                     </Box>
                 </PopoverTrigger>
                 <PopoverContent w={"fit-content"}>
