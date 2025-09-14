@@ -12,7 +12,7 @@ const AuthProvider = (props) => {
 
 	const [token, setToken] = useState("");
 	const [auth, setAuth] = useState({
-		id: "",
+		_id: "",
 		email: "",
 		avatar: "",
 		status: -2,
@@ -21,6 +21,8 @@ const AuthProvider = (props) => {
 
 	const signup = async (data) => {
 		try {
+			console.log(data);
+			
 			const response = await api.post('/auth/signup', data/* , { headers: { "Content-Type": "multipart/form-data" } } */);
 			if (response.status == 200) {
 				toast("SignUp success", { type: "success" })
@@ -41,6 +43,7 @@ const AuthProvider = (props) => {
 				toast("SignIn Success", { type: 'success' });
 				localStorage.setItem('token', response.data.token);
 				setToken(response.data.token);
+				router('/slack')
 			} else {
 				toast.error(response.data.message);
 			}
@@ -63,7 +66,7 @@ const AuthProvider = (props) => {
 			const response = await api.get('/auth/checkAuth');
 			if (response.status == 200) {
 				setAuth(response.data.user);
-				router('/slack');
+				// router('/slack');
 			} else {
 				logOut();
 			}
@@ -84,7 +87,7 @@ const AuthProvider = (props) => {
 	)
 }
 
-AuthProvidr.propTypes = {
+AuthProvider.propTypes = {
 	value: propTypes.object,
 	children: propTypes.node.isRequired,
 }

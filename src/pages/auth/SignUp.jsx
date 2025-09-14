@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { HStack, VStack, Input, Text, Button, Icon/* , Avatar */ } from "@chakra-ui/react";
 import icons from "../../constants/icons";
 
-// import { serverUrl } from "../../constants/serverUrl";
 import { AuthContext } from "../../contexts/AuthProvider";
 
 const SignUp = () => {
@@ -18,6 +17,7 @@ const SignUp = () => {
             avatar: "",
             password: "",
             username: "",
+            status: -1
         },
         confirm: "",
     })

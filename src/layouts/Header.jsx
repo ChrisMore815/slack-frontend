@@ -13,7 +13,7 @@ const Header = () => {
             <Icon fontSize={"18px"}>{icons.history}</Icon>
         </HStack>
         <HStack flex={"1 1 0"} color={'#fff'} justify={"space-between"} pr={1}>
-            <Input p={"2px 32px 2px 8px"} type={"text"} w={"80%"} fontSize={"12px"} h={"28px"} fontStyle={"italic"} _placeholder={{ color: "#FFF8" }} borderRadius={4} bg={"#6a3f6a"} placeholder={"Search in dogstarcoin..."} _focus={{ border: "1px solid #fff8" }} />
+            <Input p={"2px 32px 2px 8px"} type={"text"} w={"80%"} fontSize={"12px"} h={"28px"} fontStyle={"italic"} _placeholder={{ color: "#FFF8" }} border={"none"} borderRadius={4} bg={"#6a3f6a"} placeholder={"Search in dogstarcoin..."} _focus={{ border: "none" }} />
             <Link to={"/service/icons"} target='_blank'>
                 <Icon fontSize={"18px"}>{icons.question}</Icon>
             </Link>

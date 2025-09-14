@@ -4,8 +4,7 @@ import Main from './main/Main'
 import useUsers from '../../hooks/useUsers'
 
 const Home = () => {
-    const {users} = useUsers();
-    console.log(users);
+    const { users } = useUsers();
     return <HStack color={"#fff"} w={"100%"} h={"100%"}>
         <SideBar />
         <Main />
