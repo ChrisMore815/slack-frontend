@@ -1,4 +1,5 @@
 import { Badge as Bd } from '@chakra-ui/react';
+import propTypes from 'prop-types'
 
 const Badge = (props) => {
     return <Bd
@@ -12,6 +13,11 @@ const Badge = (props) => {
         outline={"2px solid var(--primary)"}
         bgColor={props.status === 1 ? "#0f0" : props.status === 0 ? "#ff0" : "#555"}
     />
+}
+
+Badge.propTypes = {
+    status: propTypes.number.isRequired,
+    bottom: propTypes.string.isRequired,
 }
 
 export default Badge
