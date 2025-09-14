@@ -88,7 +88,6 @@ const AuthProvider = (props) => {
 }
 
 AuthProvider.propTypes = {
-	value: propTypes.object,
 	children: propTypes.node.isRequired,
 }
 

@@ -1,0 +1,3 @@
+const socketEvents = {
+    CHANGESTATUS: 'CHANGESTATUS',
+}

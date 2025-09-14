@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react';
 import { Icon, VStack, Text, Popover, PopoverTrigger, Box, PopoverContent, PopoverArrow, PopoverCloseButton, PopoverHeader, PopoverBody, Button, HStack } from '@chakra-ui/react';
+import Badge from '../components/Badge';
 import { sidenav } from './sidenavconstants';
 import BadgeAvatar from '../components/BadgeAvatar';
-import Badge from '../components/Badge';
 import { AuthContext } from '../contexts/AuthProvider';
+import { SocketContext } from '../contexts/SocketProvider';
 
 const statusList = [
     { status: -1, displayText: "Logout" },
@@ -12,11 +13,13 @@ const statusList = [
 ]
 
 const SideNav = () => {
+    const { socket } = useContext(SocketContext)
     const { auth, logOut } = useContext(AuthContext);
 
     const handleChangeStatus = (status) => {
         console.log(status);
-        if(status == -1) logOut()
+        socket.emit(socketEvents.CHANGESTATUS, status);
+        // if (status == -1) logOut()
     }
 
     return <VStack w={"72px"} h={"100%"} p={"48px 14px 14px 14px"} justify={"space-between"}>
@@ -34,7 +37,7 @@ const SideNav = () => {
             <Popover>
                 <PopoverTrigger>
                     <Box w={"100%"}>
-                        <BadgeAvatar src={'default.gif'} status={1}/>
+                        <BadgeAvatar src={'default.gif'} status={1} />
                     </Box>
                 </PopoverTrigger>
                 <PopoverContent w={"fit-content"}>
@@ -45,7 +48,7 @@ const SideNav = () => {
                             {
                                 statusList.map((item, index) => {
                                     if (item.status !== auth.status) {
-                                        return <HStack key={index} pos={'relative'} w={"100%"} p={2 } cursor={"pointer"} onClick={() => handleChangeStatus(item.status)}>
+                                        return <HStack key={index} pos={'relative'} w={"100%"} p={2} cursor={"pointer"} onClick={() => handleChangeStatus(item.status)}>
                                             <Badge status={item.status} bottom={""} />
                                             <Text>{item.displayText}</Text>
                                         </HStack>

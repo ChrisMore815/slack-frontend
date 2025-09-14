@@ -34,7 +34,7 @@ const SideBar = () => {
             </VStack>
             <VStack w={"100%"} gap={1}>
                 <HStack w={"100%"} gap={1} p={"2px 8px"} cursor={"pointer"} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4}>
-                    <Icon fontSize={"20px"} pt={"6px"}>{icons.down}</Icon>
+                    <Icon fontSize={"20px"} pt={"3px"}>{icons.caretDown}</Icon>
                     <Text>Channels</Text>
                 </HStack>
                 <VStack w={"100%"} p={"2px 8px"}>
@@ -47,7 +47,7 @@ const SideBar = () => {
             </VStack>
             <VStack w={"100%"} gap={1}>
                 <HStack w={"100%"} gap={1} p={"2px 8px"} cursor={"pointer"} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} >
-                    <Icon fontSize={"20px"} pt={"6px"}>{icons.down}</Icon>
+                    <Icon fontSize={"20px"} pt={"3px"}>{icons.caretDown}</Icon>
                     <Text>Direct Messages</Text>
                 </HStack>
                 <VStack w={"100%"} p={"2px 8px"}>

@@ -3,7 +3,7 @@ import { HStack, Text, Icon } from "@chakra-ui/react";
 import icons from "../../../constants/icons";
 
 const MainHeader = () => {
-    return <HStack w={'100%'} h={"72px"} p={4} justify={"space-between"} color={"#000"}>
+    return <HStack w={'100%'} h={"60px"} p={4} justify={"space-between"} color={"#000"}>
         <HStack fontWeight={"bold"} gap={1}>
             <Text>#</Text>
             <Text>myChannel</Text>
