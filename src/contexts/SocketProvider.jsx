@@ -5,12 +5,13 @@ import { AuthContext } from './AuthProvider';
 import { serverUrl } from '../constants/serverUrl'
 import useUsers from '../hooks/useUsers'
 import socketEvents, { status } from '../constants/socketEvents'
+import api from "../libs/axios";
 
 export const SocketContext = createContext();
 
 const SocketProvider = (props) => {
-    const { users } = useUsers()
-    const { auth, setAuth } = useContext(AuthContext);
+    // const { users } = useUsers()
+    const { auth, setAuth, token } = useContext(AuthContext);
     const socket = useMemo(() => auth._id && io(`${serverUrl}`, { extraHeaders: { token: localStorage.getItem('token') } }), [auth._id]);
 
     const [allDms, setAllDms] = useState([]);
@@ -18,13 +19,20 @@ const SocketProvider = (props) => {
     const [allChannels, setAllChannels] = useState([]);
     const [selectedChannel, setSelectedChannel] = useState({});
 
+    // useEffect(() => {
+    //     console.log(auth._id)
+    //     auth._id && setAllUsers(users)
+    // }, [auth._id])
+
     useEffect(() => {
         if (socket) {
             socket.on(socketEvents.CHANGESTATUS, (state, data) => {
-                if (state == status.ON) data._id === auth._id ? setAuth(data) : setAllUsers(users.map((user) => user._id == data._id) ? data : user)
+                if (state == status.ON) {
+                    if (data._id == auth._id) setAuth(data)
+                    api.get('/user').then((res) => { setAllUsers(res.data) }).catch((err) => { console.log(err) })
+                }
             })
             socket.on(socketEvents.READALLCHANNEL, (state, data) => {
-                console.log(data)
                 let tmp_channels = [];
                 let tmp_dms = [];
                 if (state == status.ON) {
@@ -41,7 +49,6 @@ const SocketProvider = (props) => {
             })
             socket.on(socketEvents.CREATECHANNEL, (state, data) => {
                 if (state == status.ON) {
-                    console.log(data)
                     socket.emit(socketEvents.READALLCHANNEL);
                 };
             })
@@ -79,11 +86,6 @@ const SocketProvider = (props) => {
             socket.emit(socketEvents.READALLCHANNEL);
         }
     }, [auth._id])
-
-    useEffect(() => {
-        users.length && setAllUsers(users)
-    })
-
 
     return <SocketContext.Provider value={{ socket, allChannels, selectedChannel, allUsers, allDms }}>
         {props.children}

@@ -10,7 +10,7 @@ import { VStack, HStack, Text, Icon, Box } from "@chakra-ui/react";
 
 const SideBar = () => {
     const { auth } = useContext(AuthContext)
-    const { allChannels, socket, allDms } = useContext(SocketContext);
+    const { allChannels, socket, allDms, allUsers } = useContext(SocketContext);
 
     const [showDMModal, setShowDMModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -36,8 +36,7 @@ const SideBar = () => {
         setShowDMModal(!showDMModal);
     }
 
-    console.log(allDms)
-
+    console.log(allUsers)
 
     return <VStack w={"var(--sidebar)"} h={'100%'} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
         <VStack w={"full"} gap={8} px={"8px"} justify={"flex-start"} align={"flex-start"}>
@@ -90,13 +89,23 @@ const SideBar = () => {
                         allDms && allDms.map((dm) => {
                             return dm.members.map((member) => {
                                 if (member._id !== auth._id) {
-                                    return <HStack  p={"2px 8px"} key={member._id} w={"100%"} py={1} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} gap={4} justify={"space-between"}>
-                                        <HStack gap={2}>
-                                            <BadgeAvatar width={"28px"} height={"28px"} src={'default.gif'} status={member.status * 1} />
-                                            <Text>{member.username}</Text>
-                                        </HStack>
-                                        <Icon pt={1} fontSize={'18px'} onClick={() => handleDelete(dm._id)}>{icons.delete}</Icon>
-                                    </HStack>
+                                    return allUsers.map((user, index) => {
+                                        if (member._id == user._id)
+                                            return <HStack p={"2px 8px"} key={index} w={"100%"} py={1} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} gap={4} justify={"space-between"}>
+                                                <HStack gap={2}>
+                                                    <BadgeAvatar width={"28px"} height={"28px"} src={'default.gif'} status={user.status * 1} />
+                                                    <Text>{user.username}</Text>
+                                                </HStack>
+                                                <Icon pt={1} fontSize={'18px'} onClick={() => handleDelete(dm._id)}>{icons.delete}</Icon>
+                                            </HStack>
+                                    })
+                                    // return <HStack p={"2px 8px"} key={member._id} w={"100%"} py={1} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} gap={4} justify={"space-between"}>
+                                    //     <HStack gap={2}>
+                                    //         <BadgeAvatar width={"28px"} height={"28px"} src={'default.gif'} status={member.status * 1} />
+                                    //         <Text>{member.username}</Text>
+                                    //     </HStack>
+                                    //     <Icon pt={1} fontSize={'18px'} onClick={() => handleDelete(dm._id)}>{icons.delete}</Icon>
+                                    // </HStack>
                                 }
                             })
                         })
