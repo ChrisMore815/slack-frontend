@@ -1,13 +1,20 @@
 import { VStack, HStack, Text, Icon } from "@chakra-ui/react";
 import icons from "../../../constants/icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import CreateChannel from '../../../components/CreateChannel'
 import CreateDM from "../../../components/CreateDM";
+import { SocketContext } from "../../../contexts/SocketProvider";
+import socketEvents from "../../../constants/socketEvents";
 
 const SideBar = () => {
+    const { allChannels, socket } = useContext(SocketContext);
 
     const [showDMModal, setShowDMModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
+
+    const handleSelectChannel = (id) => {
+        socket.emit(socketEvents.READCHANNEL, id);
+    }
 
     const handleShowCreateModal = () => {
         setShowCreateModal(!showCreateModal);
@@ -37,8 +44,15 @@ const SideBar = () => {
                     <Icon fontSize={"20px"} pt={"3px"}>{icons.caretDown}</Icon>
                     <Text>Channels</Text>
                 </HStack>
-                <VStack w={"100%"} p={"2px 8px"}>
-
+                <VStack w={"100%"} gap={1}>
+                    {
+                        allChannels && allChannels.map((channel, index) => {
+                            return <HStack w={'100%'} px={2} gap={2} fontSize={"18px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }} onClick={() => handleSelectChannel(channel._id)}>
+                                <Text>#</Text>
+                                <Text>{channel.name}</Text>
+                            </HStack>
+                        })
+                    }
                 </VStack>
                 <HStack w={"100%"} p={"2px 8px"} gap={1} cursor={"pointer"} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} onClick={handleShowCreateModal}>
                     <Icon fontSize={"20px"} pt={"4px"}>{icons.plus}</Icon>

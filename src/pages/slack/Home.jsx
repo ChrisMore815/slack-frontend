@@ -9,10 +9,12 @@ import { AuthContext } from "../../contexts/AuthProvider";
 const Home = () => {
     const router = useNavigate();
     const { users } = useUsers();
-    const { auth, token } = useContext(AuthContext)
+    const { token, logOut } = useContext(AuthContext)
+
     useEffect(() => {
-        if (!localStorage.getItem("token")) router('/')
+        if (!localStorage.getItem("token")) logOut()
     }, [token])
+
     return <HStack color={"#fff"} w={"100%"} h={"100%"}>
         <SideBar />
         <Main />

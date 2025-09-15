@@ -4,10 +4,13 @@ import propTypes from 'prop-types'
 import useUsers from "../hooks/useUsers";
 import { AuthContext } from "../contexts/AuthProvider";
 import BadgeAvatar from './BadgeAvatar'
+import { SocketContext } from '../contexts/SocketProvider'
+import socketEvents from "../constants/socketEvents";
 
 const CreateChannel = (props) => {
     const { users } = useUsers();
     const { auth } = useContext(AuthContext);
+    const { socket } = useContext(SocketContext);
 
     const [curC, setCurC] = useState({
         name: "",
@@ -29,6 +32,8 @@ const CreateChannel = (props) => {
     }
 
     const handleOk = () => {
+        const data = { ...curC, members: curC.members.includes(auth._id) ? curC : [...curC.members, auth._id] }
+        socket.emit(socketEvents.CREATECHANNEL, data)
         handleClose();
     }
 
