@@ -9,8 +9,6 @@ import { AuthContext } from "../../contexts/AuthProvider";
 
 
 const Home = () => {
-    const router = useNavigate();
-    const { users } = useUsers();
     const { token, logOut } = useContext(AuthContext)
 
     useEffect(() => {

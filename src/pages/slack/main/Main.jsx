@@ -9,12 +9,13 @@ import { SocketContext } from "../../../contexts/SocketProvider";
 
 const Main = () => {
 
-    const { } = useContext(SocketContext)
+    const { selectedCurChannel } = useContext(SocketContext)
+    console.log(selectedCurChannel)
 
     return <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={"0px 8px 8px 0px"}>
-        <MainHeader />
+        <MainHeader data={selectedCurChannel} />
         <MainNav />
-        <MainContent />
+        <MainContent data={selectedCurChannel} />
         <MessageBox />
     </VStack>
 }
