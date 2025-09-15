@@ -1,14 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import { Input, VStack, Modal, ModalBody, ModalContent, ModalHeader, ModalFooter, ModalOverlay, Button, HStack, Checkbox, Text } from "@chakra-ui/react";
 import propTypes from 'prop-types'
-import useUsers from "../hooks/useUsers";
-import { AuthContext } from "../contexts/AuthProvider";
+import { Input, VStack, Modal, ModalBody, ModalContent, ModalHeader, ModalFooter, ModalOverlay, Button, HStack, Checkbox, Text } from "@chakra-ui/react";
+
 import BadgeAvatar from './BadgeAvatar'
-import { SocketContext } from '../contexts/SocketProvider'
 import socketEvents from "../constants/socketEvents";
+import { AuthContext } from "../contexts/AuthProvider";
+import { SocketContext } from '../contexts/SocketProvider'
 
 const CreateChannel = (props) => {
-    // const { users } = useUsers();
+    const { open, setOpen, curChannel } = props;
     const { auth } = useContext(AuthContext);
     const { socket, allUsers } = useContext(SocketContext);
 
@@ -23,6 +23,15 @@ const CreateChannel = (props) => {
             setCurC({ ...curC, creator: auth._id })
     }, [auth])
 
+    useEffect(() => {
+        if (open == "edit") {
+            let temp = [];
+            curChannel.members.forEach((member) => temp.push(member._id))
+            setCurC({ ...curC, ...curChannel, members: temp });
+        }
+        else return;
+    }, [open])
+
     const handleChange = (e) => {
         setCurC({ ...curC, name: e.target.value })
     }
@@ -32,20 +41,24 @@ const CreateChannel = (props) => {
     }
 
     const handleOk = () => {
-        const data = { ...curC, members: curC.members.includes(auth._id) ? curC : [...curC.members, auth._id] }
-        socket.emit(socketEvents.CREATECHANNEL, data)
+        const data = { ...curC, members: curC.members.includes(auth._id) ? curC.members : [...curC.members, auth._id] }
+        if (open == 'create') {
+            socket.emit(socketEvents.CREATECHANNEL, data)
+        } else {
+            socket.emit(socketEvents.UPDATECHANNEL, data)
+        }
         handleClose();
     }
 
     const handleClose = () => {
-        props.setOpen(!open)
+        setOpen("")
     }
-    
-    return <Modal isOpen={props.open} isCentered>
+
+    return <Modal isOpen={open} isCentered>
         <ModalOverlay />
         <ModalContent bg={"var(--primary)"} color={"#FFF"}>
             <ModalHeader>
-                Create Channel
+                {open == "create" ? "Create Channel" : "Edit Channel"}
             </ModalHeader>
             <ModalBody>
                 <Input
@@ -53,6 +66,7 @@ const CreateChannel = (props) => {
                     _focus={{ border: "1px solid #fff6" }}
                     placeholder={"Insert ChannelName Ex: myChannel"}
                     _placeholder={{ fontStyle: "italic", color: "#fff6" }}
+                    value={curC.name ? curC.name : ""}
                     onChange={handleChange}
                 />
                 <VStack maxH={"500px"} minH={"400px"} overflowY={"auto"} p={4} gap={2}>
@@ -66,11 +80,12 @@ const CreateChannel = (props) => {
                                     key={index}
                                     rounded={8}
                                     _hover={{ bg: "#5c275cff", }}
+                                    isChecked={curC.members.includes(user._id)}
                                     onChange={() => handleSelect(user._id)}
                                     bg={curC.members.includes(user._id) ? "#5c275cff" : "none"}
                                 >
                                     <HStack w={"100%"} px={8} gap={2} justify={"space-between"}>
-                                        <HStack>
+                                        <HStack gap={2}>
                                             <BadgeAvatar status={user.status} src={"default.gif"} />
                                             <Text>{user.username}</Text>
                                         </HStack>

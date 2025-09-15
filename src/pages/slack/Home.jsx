@@ -1,10 +1,12 @@
-import { Box, Text, VStack, HStack } from "@chakra-ui/react";
+import { HStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import SideBar from "./sidebar/SideBar";
 import Main from './main/Main'
 import useUsers from '../../hooks/useUsers'
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthProvider";
+
+
 
 const Home = () => {
     const router = useNavigate();
