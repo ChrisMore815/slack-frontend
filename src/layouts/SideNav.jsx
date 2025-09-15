@@ -18,7 +18,6 @@ const SideNav = () => {
     const { auth, logOut } = useContext(AuthContext);
 
     const handleChangeStatus = (status) => {
-        console.log(status)
         if (status === -1) logOut();
         socket.emit(`${socketEvents.CHANGESTATUS}`, { id: auth._id, status: status });
     }

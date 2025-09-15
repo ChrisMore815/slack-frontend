@@ -5,7 +5,7 @@ import icons from "../constants/icons";
 const MessageBox = (props) => {
 
     const handleChange = (e) => {
-        props.setuserInfo({ ...props.userInfo, message: e.target.value });
+        props.setUserInfo({ ...props.userInfo, message: e.target.value });
     }
 
     const handleSend = () => {

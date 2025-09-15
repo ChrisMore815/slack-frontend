@@ -4,7 +4,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #1d19317e;
+    background: var(--primary);
+    border-radius: 4px;
 }
 
 ::-webkit-slider-thumb:hover {

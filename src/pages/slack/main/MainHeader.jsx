@@ -1,14 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import propTypes from 'prop-types'
 import { HStack, Text, Icon, Box, Image } from "@chakra-ui/react";
 import icons from "../../../constants/icons";
 import { serverUrl } from "../../../constants/serverUrl";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const MainHeader = (props) => {
+    const { auth } = useContext(AuthContext)
+    const name = props.data && (props.data.isDm === false ? props.data.name : (props.data.members && props.data.members?.filter(v => v._id !== auth._id)));
     return <HStack w={'100%'} h={"60px"} p={4} justify={"space-between"} color={"#000"}>
         <HStack fontWeight={"bold"} gap={1}>
             <Text>#</Text>
-            <Text>{props.data.name}</Text>
+            <Text>{(typeof name) === 'string' ? name : (typeof name) == 'object' && name[0]?.username}</Text>
         </HStack>
         <HStack gap={4} align={"center"}>
             <HStack w={"60px"} justify={"space-between"} h={"24px"}>

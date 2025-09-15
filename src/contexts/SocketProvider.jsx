@@ -1,7 +1,8 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import api from "../libs/axios";
 import propTypes from 'prop-types';
 import { io } from "socket.io-client";
+
+import api from "../libs/axios";
 import { AuthContext } from './AuthProvider';
 import { serverUrl } from '../constants/serverUrl'
 import socketEvents, { status } from '../constants/socketEvents'
@@ -16,6 +17,7 @@ const SocketProvider = (props) => {
     const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [allChannels, setAllChannels] = useState([]);
+    const [selectedChMsg, setSelectedChMsg] = useState([]);
     const [selectedCurChannel, setSelectedCurChannel] = useState({});
 
     useEffect(() => {
@@ -42,24 +44,24 @@ const SocketProvider = (props) => {
                 setAllDms(tmp_dms)
             })
             socket.on(socketEvents.CREATECHANNEL, (state, data) => {
-                if (state == status.ON) {
-                    socket.emit(socketEvents.READALLCHANNEL);
-                };
+                if (state == status.ON) socket.emit(socketEvents.READALLCHANNEL);
+
             })
             socket.on(socketEvents.READCHANNEL, (state, data) => {
-                if (state == status.ON) setSelectedCurChannel(data);
+                if (state == status.ON) {
+                    setSelectedChMsg(data.msg);
+                    setSelectedCurChannel(data.ch);
+                };
             })
             socket.on(socketEvents.UPDATECHANNEL, (state, data) => {
-                if (state === status.ON) {
-                    console.log(state)
-                    // setAllChannels(allChannels.map((channel) => channel._id == data._id ? data : channel))
-                    socket.emit(socketEvents.READALLCHANNEL);
-                };
+                if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
+
             })
             socket.on(socketEvents.DELETECHANNEL, (state) => {
-                if (state === status.ON) {
-                    socket.emit(socketEvents.READALLCHANNEL);
-                };
+                if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
+            })
+            socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
+                if (state == status.ON) setSelectedChMsg(data)
             })
         }
         return () => {
@@ -71,6 +73,8 @@ const SocketProvider = (props) => {
                 socket.removeListener(socketEvents.READCHANNEL);
                 socket.removeListener(socketEvents.UPDATECHANNEL);
                 socket.removeListener(socketEvents.DELETECHANNEL);
+
+                socket.removeListener(socketEvents.CREATEMESSAGE);
             }
         }
     })
@@ -82,7 +86,11 @@ const SocketProvider = (props) => {
         }
     }, [auth._id])
 
-    return <SocketContext.Provider value={{ socket, allChannels, selectedCurChannel, allUsers, allDms }}>
+    useEffect(() => {
+        if (allChannels.length > 0) socket.emit(socketEvents.READCHANNEL, allChannels[0])
+    }, [allChannels])
+
+    return <SocketContext.Provider value={{ socket, allChannels, selectedCurChannel, allUsers, allDms, selectedChMsg }}>
         {props.children}
     </SocketContext.Provider>
 }

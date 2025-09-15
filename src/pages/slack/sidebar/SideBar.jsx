@@ -11,7 +11,7 @@ import { SocketContext } from "../../../contexts/SocketProvider";
 
 const SideBar = () => {
     const { auth } = useContext(AuthContext)
-    const { allChannels, socket, allDms, allUsers } = useContext(SocketContext);
+    const { allChannels, socket, allDms, allUsers, selectedCurChannel } = useContext(SocketContext);
 
     const [showDMModal, setShowDMModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState("");
@@ -38,7 +38,7 @@ const SideBar = () => {
         setShowDMModal(!showDMModal);
     }
 
-    return <VStack w={"var(--sidebar)"} h={'100%'} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
+    return <VStack w={"var(--sidebar)"} h={'100%'} overflowY={"auto"} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
         <VStack w={"full"} gap={8} px={"8px"} justify={"flex-start"} align={"flex-start"}>
             <HStack justify={"space-between"} align={"center"} w={"100%"} cursor={"pointer"} _hover={{ bg: "#fff", color: "var(--primary)" }} p={"2px 4px 2px 16px"} rounded={4}>
                 <HStack gap={1}>
@@ -61,7 +61,7 @@ const SideBar = () => {
                 <VStack w={"100%"} gap={1}>
                     {
                         allChannels && allChannels.map((channel, index) => {
-                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} px={2} gap={2} fontSize={"16px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
+                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} bg={selectedCurChannel._id == channel._id ? "#fff" : "none"} color={selectedCurChannel._id === channel._id ? "var(--primary)" : "#fff"} px={2} gap={2} fontSize={"16px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
                                 <HStack gap={2} onClick={() => handleSelectChannel(channel._id)}>
                                     <Text>#</Text>
                                     <Text>{channel.name}</Text>
@@ -91,12 +91,12 @@ const SideBar = () => {
                                 if (member._id !== auth._id) {
                                     return allUsers.map((user, index) => {
                                         if (member._id == user._id)
-                                            return <HStack p={"2px 8px"} key={index} w={"100%"} py={1} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} cursor={"pointer"} gap={4} justify={"space-between"}>
+                                            return <HStack p={"2px 8px"} onClick={() => handleSelectChannel(dm._id)} key={index} w={"100%"} bg={selectedCurChannel._id == dm._id ? "#fff" : "none"} color={selectedCurChannel._id === dm._id ? "var(--primary)" : "#fff"} py={1} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} cursor={"pointer"} gap={4} justify={"space-between"}>
                                                 <HStack gap={2}>
                                                     <BadgeAvatar width={"28px"} height={"28px"} src={'default.gif'} status={user.status * 1} />
                                                     <Text>{user.username}</Text>
                                                 </HStack>
-                                                <Icon display={user._id == auth._id ? "flex": "nones"} pt={1} fontSize={'18px'} onClick={() => handleDelete(dm._id)}>{icons.delete}</Icon>
+                                                <Icon display={user._id == auth._id ? "flex" : "nones"} pt={1} fontSize={'18px'} onClick={() => handleDelete(dm._id)}>{icons.delete}</Icon>
                                             </HStack>
                                     })
                                 }
