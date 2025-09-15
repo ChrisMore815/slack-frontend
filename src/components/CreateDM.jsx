@@ -1,14 +1,16 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal, ModalOverlay, ModalHeader, ModalContent, ModalBody, Text, VStack, HStack, Checkbox, ModalFooter, Button } from '@chakra-ui/react'
 import propTypes from 'prop-types';
 import BadgeAvatar from "./BadgeAvatar";
 import useUsers from "../hooks/useUsers";
 import { AuthContext } from "../contexts/AuthProvider";
+import { SocketContext } from "../contexts/SocketProvider";
+import socketEvents from "../constants/socketEvents";
 
 const CreateDM = (props) => {
 
-    const { users } = useUsers();
     const { auth } = useContext(AuthContext);
+    const { allUsers, socket } = useContext(SocketContext);
 
     const [curD, setCurD] = useState({
         creator: "",
@@ -16,14 +18,20 @@ const CreateDM = (props) => {
         name: Date.now(),
     })
 
+    useEffect(() => {
+        if (auth._id) setCurD({ ...curD, creator: auth._id })
+    }, [auth])
+
     const handleChange = (member) => {
         setCurD({ ...curD, members: curD.members.includes(member) ? curD.members.filter((curMember) => curMember != member) : [...curD.members, member] })
     }
 
     const handleOk = () => {
         curD.members.forEach((member) => {
-            const data = { ...curD, members: [member, auth._id] };
+            const data = { ...curD, members: [member, auth._id], isDm: true };
+            socket.emit(socketEvents.CREATECHANNEL, data);
         })
+
         handleClose();
     }
 
@@ -40,8 +48,8 @@ const CreateDM = (props) => {
             </ModalHeader>
             <ModalBody>
                 <VStack h={"400px"} overflowY={"auto"} p={4} gap={2}>
-                    {
-                        users.map((user, index) => {
+                    {allUsers &&
+                        allUsers.map((user, index) => {
                             if (user._id !== auth._id) {
                                 return <Checkbox
                                     py={1}

@@ -1,15 +1,16 @@
-import { VStack, HStack, Text, Icon } from "@chakra-ui/react";
-import icons from "../../../constants/icons";
 import { useContext, useState } from "react";
-import CreateChannel from '../../../components/CreateChannel'
+import icons from "../../../constants/icons";
 import CreateDM from "../../../components/CreateDM";
-import { SocketContext } from "../../../contexts/SocketProvider";
+import BadgeAvatar from "../../../components/BadgeAvatar";
 import socketEvents from "../../../constants/socketEvents";
 import { AuthContext } from "../../../contexts/AuthProvider";
+import CreateChannel from '../../../components/CreateChannel';
+import { SocketContext } from "../../../contexts/SocketProvider";
+import { VStack, HStack, Text, Icon, Box } from "@chakra-ui/react";
 
 const SideBar = () => {
     const { auth } = useContext(AuthContext)
-    const { allChannels, socket } = useContext(SocketContext);
+    const { allChannels, socket, allDms } = useContext(SocketContext);
 
     const [showDMModal, setShowDMModal] = useState(false);
     const [showCreateModal, setShowCreateModal] = useState(false);
@@ -35,6 +36,9 @@ const SideBar = () => {
         setShowDMModal(!showDMModal);
     }
 
+    console.log(allDms)
+
+
     return <VStack w={"var(--sidebar)"} h={'100%'} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
         <VStack w={"full"} gap={8} px={"8px"} justify={"flex-start"} align={"flex-start"}>
             <HStack justify={"space-between"} align={"center"} w={"100%"} cursor={"pointer"} _hover={{ bg: "#fff", color: "var(--primary)" }} p={"2px 4px 2px 16px"} rounded={4}>
@@ -58,13 +62,12 @@ const SideBar = () => {
                 <VStack w={"100%"} gap={1}>
                     {
                         allChannels && allChannels.map((channel, index) => {
-                            console.log(channel.creator, auth._id)
-                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} px={2} gap={2} fontSize={"18px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
+                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} px={2} gap={2} fontSize={"16px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
                                 <HStack gap={2} onClick={() => handleSelectChannel(channel._id)}>
                                     <Text>#</Text>
                                     <Text>{channel.name}</Text>
                                 </HStack>
-                                <HStack gap={1} display={channel.creator === auth._id ? "flex" : "none"}>
+                                <HStack gap={1} pt={1} display={channel.creator === auth._id ? "flex" : "none"}>
                                     <Icon onClick={() => handleEdit(channel._id)}>{icons.edit}</Icon>
                                     <Icon onClick={() => handleDelete(channel._id)}>{icons.delete}</Icon>
                                 </HStack>
@@ -82,8 +85,22 @@ const SideBar = () => {
                     <Icon fontSize={"20px"} pt={"3px"}>{icons.caretDown}</Icon>
                     <Text>Direct Messages</Text>
                 </HStack>
-                <VStack w={"100%"} p={"2px 8px"}>
-
+                <VStack w={"100%"} gap={1}>
+                    {
+                        allDms && allDms.map((dm) => {
+                            return dm.members.map((member) => {
+                                if (member._id !== auth._id) {
+                                    return <HStack  p={"2px 8px"} key={member._id} w={"100%"} py={1} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} gap={4} justify={"space-between"}>
+                                        <HStack gap={2}>
+                                            <BadgeAvatar width={"28px"} height={"28px"} src={'default.gif'} status={member.status * 1} />
+                                            <Text>{member.username}</Text>
+                                        </HStack>
+                                        <Icon pt={1} fontSize={'18px'} onClick={() => handleDelete(dm._id)}>{icons.delete}</Icon>
+                                    </HStack>
+                                }
+                            })
+                        })
+                    }
                 </VStack>
                 <HStack w={"100%"} p={"2px 8px"} gap={1} cursor={"pointer"} _hover={{ bg: "#fff", color: "var(--primary)" }} rounded={4} onClick={handleShowCreateDMModal}>
                     <Icon fontSize={"20px"} pt={"4px"}>{icons.plus}</Icon>

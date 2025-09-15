@@ -1,6 +1,5 @@
 import * as Bs from 'react-icons/bs'
 import * as Fa from 'react-icons/fa';
-import * as Hi from 'react-icons/hi'
 
 const icons = {
     activity: <Fa.FaBell />,
@@ -21,9 +20,10 @@ const icons = {
     password: <Fa.FaEye />,
     pin: <Bs.BsFillPinFill />,
     pinned: <Bs.BsFillPinAngleFill />,
-    showPassword: <Fa.FaEyeSlash />,
     plus: <Fa.FaPlusSquare />,
     prev: <Fa.FaArrowLeft />,
+    search: <Fa.FaSearch />,
+    showPassword: <Fa.FaEyeSlash />,
     question: <Fa.FaRegQuestionCircle />,
     threads: <Fa.FaRegComment />,
     user: <Fa.FaUser />,

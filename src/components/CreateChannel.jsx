@@ -6,12 +6,11 @@ import { AuthContext } from "../contexts/AuthProvider";
 import BadgeAvatar from './BadgeAvatar'
 import { SocketContext } from '../contexts/SocketProvider'
 import socketEvents from "../constants/socketEvents";
-import icons from "../constants/icons";
 
 const CreateChannel = (props) => {
-    const { users } = useUsers();
+    // const { users } = useUsers();
     const { auth } = useContext(AuthContext);
-    const { socket } = useContext(SocketContext);
+    const { socket, allUsers } = useContext(SocketContext);
 
     const [curC, setCurC] = useState({
         name: "",
@@ -41,7 +40,7 @@ const CreateChannel = (props) => {
     const handleClose = () => {
         props.setOpen(!open)
     }
-
+    
     return <Modal isOpen={props.open} isCentered>
         <ModalOverlay />
         <ModalContent bg={"var(--primary)"} color={"#FFF"}>
@@ -58,7 +57,7 @@ const CreateChannel = (props) => {
                 />
                 <VStack maxH={"500px"} minH={"400px"} overflowY={"auto"} p={4} gap={2}>
                     {
-                        users.map((user, index) => {
+                        allUsers && allUsers.map((user, index) => {
                             if (user._id !== auth._id) {
                                 return <Checkbox
                                     py={1}
@@ -74,7 +73,7 @@ const CreateChannel = (props) => {
                                         <HStack>
                                             <BadgeAvatar status={user.status} src={"default.gif"} />
                                             <Text>{user.username}</Text>
-                                        </HStack> 
+                                        </HStack>
                                     </HStack>
                                 </Checkbox>
                             }

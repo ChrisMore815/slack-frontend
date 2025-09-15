@@ -13,6 +13,7 @@ const SocketProvider = (props) => {
     const { auth, setAuth } = useContext(AuthContext);
     const socket = useMemo(() => auth._id && io(`${serverUrl}`, { extraHeaders: { token: localStorage.getItem('token') } }), [auth._id]);
 
+    const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
     const [allChannels, setAllChannels] = useState([]);
     const [selectedChannel, setSelectedChannel] = useState({});
@@ -23,12 +24,25 @@ const SocketProvider = (props) => {
                 if (state == status.ON) data._id === auth._id ? setAuth(data) : setAllUsers(users.map((user) => user._id == data._id) ? data : user)
             })
             socket.on(socketEvents.READALLCHANNEL, (state, data) => {
-                if (state === status.ON) setAllChannels(data)
+                console.log(data)
+                let tmp_channels = [];
+                let tmp_dms = [];
+                if (state == status.ON) {
+                    data.forEach((curChannel) => {
+                        if (curChannel.isDm == false) {
+                            tmp_channels.push(curChannel);
+                        } else {
+                            tmp_dms.push(curChannel)
+                        }
+                    })
+                }
+                setAllChannels(tmp_channels)
+                setAllDms(tmp_dms)
             })
             socket.on(socketEvents.CREATECHANNEL, (state, data) => {
                 if (state == status.ON) {
-                    // setAllChannels([...allChannels, data]);
-                    socket.emit(socketEvents.READALLCHANNEL)
+                    console.log(data)
+                    socket.emit(socketEvents.READALLCHANNEL);
                 };
             })
             socket.on(socketEvents.READCHANNEL, (state, data) => {
@@ -37,13 +51,12 @@ const SocketProvider = (props) => {
             socket.on(socketEvents.UPDATECHANNEL, (state, data) => {
                 if (state === status.ON) {
                     // setAllChannels(allChannels.map((channel) => channel._id == data._id ? data : channel))
-                    socket.emit(socketEvents.READALLCHANNEL)
+                    socket.emit(socketEvents.READALLCHANNEL);
                 };
             })
             socket.on(socketEvents.DELETECHANNEL, (state) => {
-                console.log(state)
                 if (state === status.ON) {
-                    socket.emit(socketEvents.READALLCHANNEL)
+                    socket.emit(socketEvents.READALLCHANNEL);
                 };
             })
         }
@@ -64,11 +77,15 @@ const SocketProvider = (props) => {
         if (auth._id) {
             socket.emit(socketEvents.CHANGESTATUS, { id: auth._id, status: 1 });
             socket.emit(socketEvents.READALLCHANNEL);
-            setAllUsers(users)
         }
     }, [auth._id])
 
-    return <SocketContext.Provider value={{ socket, allChannels, selectedChannel }}>
+    useEffect(() => {
+        users.length && setAllUsers(users)
+    })
+
+
+    return <SocketContext.Provider value={{ socket, allChannels, selectedChannel, allUsers, allDms }}>
         {props.children}
     </SocketContext.Provider>
 }

@@ -1,4 +1,3 @@
-import React from 'react';
 import { HStack, VStack } from '@chakra-ui/react'
 import SideNav from './SideNav';
 import Header from './Header';
