@@ -8,6 +8,7 @@ const icons = {
     down: <Fa.FaChevronDown />,
     caretLeft: <Fa.FaCaretLeft />,
     caretDown: <Fa.FaCaretDown />,
+    delete: <Fa.FaTrash />,
     earphone: <Fa.FaHeadphonesAlt />,
     edit: <Fa.FaEdit />,
     email: <Fa.FaEnvelope />,

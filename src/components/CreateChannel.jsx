@@ -6,6 +6,7 @@ import { AuthContext } from "../contexts/AuthProvider";
 import BadgeAvatar from './BadgeAvatar'
 import { SocketContext } from '../contexts/SocketProvider'
 import socketEvents from "../constants/socketEvents";
+import icons from "../constants/icons";
 
 const CreateChannel = (props) => {
     const { users } = useUsers();
@@ -69,9 +70,11 @@ const CreateChannel = (props) => {
                                     onChange={() => handleSelect(user._id)}
                                     bg={curC.members.includes(user._id) ? "#5c275cff" : "none"}
                                 >
-                                    <HStack w={"100%"} px={8} gap={2}>
-                                        <BadgeAvatar status={user.status} src={"default.gif"} />
-                                        <Text>{user.username}</Text>
+                                    <HStack w={"100%"} px={8} gap={2} justify={"space-between"}>
+                                        <HStack>
+                                            <BadgeAvatar status={user.status} src={"default.gif"} />
+                                            <Text>{user.username}</Text>
+                                        </HStack> 
                                     </HStack>
                                 </Checkbox>
                             }

@@ -5,8 +5,10 @@ import CreateChannel from '../../../components/CreateChannel'
 import CreateDM from "../../../components/CreateDM";
 import { SocketContext } from "../../../contexts/SocketProvider";
 import socketEvents from "../../../constants/socketEvents";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const SideBar = () => {
+    const { auth } = useContext(AuthContext)
     const { allChannels, socket } = useContext(SocketContext);
 
     const [showDMModal, setShowDMModal] = useState(false);
@@ -14,6 +16,15 @@ const SideBar = () => {
 
     const handleSelectChannel = (id) => {
         socket.emit(socketEvents.READCHANNEL, id);
+    }
+
+    const handleEdit = (id) => {
+        console.log(id)
+    }
+
+    const handleDelete = (id) => {
+        console.log(id)
+        socket.emit(socketEvents.DELETECHANNEL, id);
     }
 
     const handleShowCreateModal = () => {
@@ -47,9 +58,16 @@ const SideBar = () => {
                 <VStack w={"100%"} gap={1}>
                     {
                         allChannels && allChannels.map((channel, index) => {
-                            return <HStack w={'100%'} px={2} gap={2} fontSize={"18px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }} onClick={() => handleSelectChannel(channel._id)}>
-                                <Text>#</Text>
-                                <Text>{channel.name}</Text>
+                            console.log(channel.creator, auth._id)
+                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} px={2} gap={2} fontSize={"18px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
+                                <HStack gap={2} onClick={() => handleSelectChannel(channel._id)}>
+                                    <Text>#</Text>
+                                    <Text>{channel.name}</Text>
+                                </HStack>
+                                <HStack gap={1} display={channel.creator === auth._id ? "flex" : "none"}>
+                                    <Icon onClick={() => handleEdit(channel._id)}>{icons.edit}</Icon>
+                                    <Icon onClick={() => handleDelete(channel._id)}>{icons.delete}</Icon>
+                                </HStack>
                             </HStack>
                         })
                     }
