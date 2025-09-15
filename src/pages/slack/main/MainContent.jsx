@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import MessageView from "../../../components/MessageView";
 
 const MainContent = (props) => {
-    const { msg, handleDelete, handleEdit, handlePin } = props;
+    const { msg, handleDelete, handleEdit, handlePin, handleEmoticon, handleThread } = props;
 
     return <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
         {
@@ -13,6 +13,8 @@ const MainContent = (props) => {
                     handlePin={handlePin}
                     handleEdit={handleEdit}
                     handleDelete={handleDelete}
+                    handleEmoticon={handleEmoticon}
+                    handleThread={handleThread}
                 />
             })
         }

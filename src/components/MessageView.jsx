@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import propTypes from 'prop-types'
 import { HStack, Image, VStack, Wrap, Text, Icon } from "@chakra-ui/react";
-import { serverUrl } from '../constants/serverUrl'
+
 import icons from "../constants/icons";
+import { serverUrl } from '../constants/serverUrl'
+import { AuthContext } from "../contexts/AuthProvider";
 
 const MessageView = (props) => {
-    const { msg, handleDelete, handleEdit, handlePin } = props;
+    const { msg, handleDelete, handleEdit, handlePin, handleThread, handleEmoticon } = props;
+
+    const { auth } = useContext(AuthContext)
 
     const [show, setShow] = useState("")
 
@@ -24,10 +28,13 @@ const MessageView = (props) => {
                 <HStack w={"100%"} justify={"space-between"} pos={"relative"}>
                     <Text>{msg.sender.username}</Text>
                     <HStack w={"fit-content"} pos={"absolute"} right={0} gap={1} p={2} display={show == msg._id ? "flex" : "none"} border={"1px solid #ddd"} fontSize={"20px"}>
-                        <Icon cursor={"pointer"} onClick={() => handlePin(msg._id)}>{icons.pin}</Icon>
-                        <Icon cursor={"pointer"} onClick={() => handleEdit(msg._id)}>{icons.emoticon}</Icon>
-                        <Icon cursor={"pointer"} onClick={() => handleEdit(msg._id)}>{icons.edit}</Icon>
-                        <Icon cursor={"pointer"} onClick={() => handleDelete(msg._id)}>{icons.delete}</Icon>
+                        <Icon cursor={"pointer"} onClick={() => handlePin(msg._id, { ...msg, isPined: !msg.isPined })}>{msg.isPined ? icons.pinned : icons.pin}</Icon>
+                        <Icon cursor={"pointer"} onClick={() => handleEmoticon(msg._id)}>{icons.emoticon}</Icon>
+                        <Icon cursor={"pointer"} onClick={() => handleThread(msg._id)}>{icons.threads}</Icon>
+                        <HStack display={msg.sender._id == auth._id ? "flex" : "none"}>
+                            <Icon cursor={"pointer"} onClick={() => handleEdit(msg._id)}>{icons.edit}</Icon>
+                            <Icon cursor={"pointer"} onClick={() => handleDelete(msg._id)}>{icons.delete}</Icon>
+                        </HStack>
                     </HStack>
                 </HStack>
                 <HStack w={"100%"}><Text>{ }</Text></HStack>
@@ -75,7 +82,9 @@ MessageView.propTypes = {
     msg: propTypes.object.isRequired,
     handlePin: propTypes.func.isRequired,
     handleEdit: propTypes.func.isRequired,
-    handleDelete: propTypes.func.isRequired
+    handleDelete: propTypes.func.isRequired,
+    handleThread: propTypes.func.isRequired,
+    handleEmoticon: propTypes.func.isRequired
 }
 
 export default MessageView;

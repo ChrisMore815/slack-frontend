@@ -4,12 +4,14 @@ import icons from "../constants/icons";
 
 const MessageBox = (props) => {
 
+    const { userInfo, setUserInfo, send } = props;
+
     const handleChange = (e) => {
-        props.setUserInfo({ ...props.userInfo, message: e.target.value });
+        setUserInfo({ ...userInfo, message: e.target.value });
     }
 
     const handleSend = () => {
-        props.send();
+        send();
     }
 
     return <VStack w={"95%"} h={"180px"} color={'#000'} justify={"center"} align={"center"}>

@@ -26,16 +26,20 @@ const Main = () => {
     });
 
     useEffect(() => {
-        if (selectedCurChannel.isDm == false) {
-            setUserInfo({ ...userInfo, sender: auth._id, channelId: selectedCurChannel._id })
-        } else {
-            setUserInfo({ ...userInfo, channelId: selectedCurChannel._id })
+        if (selectedCurChannel) {
+            if (selectedCurChannel.isDm == false) {
+                setUserInfo({ ...userInfo, sender: auth._id, channelId: selectedCurChannel._id })
+            } else {
+                let temp = [];
+                selectedCurChannel.members?.forEach(member => temp.push(member._id));
+                setUserInfo({ ...userInfo, receivers: [...temp], channelId: selectedCurChannel._id })
+            }
         }
     }, [selectedCurChannel])
 
-    const pinHandler = (id) => {
+    const pinHandler = (id, message) => {
         console.log(id);
-        socket.emit(socketEvents.UPDATEMESSAGE, { isPinned: true })
+        socket.emit(socketEvents.UPDATEMESSAGE, { id, message: { ...message, sender: message.sender._id } })
     }
 
     const editHandler = (id) => {
@@ -44,18 +48,26 @@ const Main = () => {
 
     const deleteHandler = (id) => {
         console.log(id);
+        socket.emit(socketEvents.DELETEMESSAGE, id);
     }
 
     const handleSend = () => {
         socket.emit(socketEvents.CREATEMESSAGE, userInfo);
     }
 
+    const threadHandler = () => {
+
+    }
+
+    const emoticonHandler = () => {
+
+    }
 
 
     return <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={"0px 8px 8px 0px"}>
         <MainHeader data={selectedCurChannel} />
         <MainNav />
-        <MainContent msg={selectedChMsg} handleEdit={editHandler} handleDelete={deleteHandler} handlePin={pinHandler} />
+        <MainContent msg={selectedChMsg} handleEdit={editHandler} handleDelete={deleteHandler} handlePin={pinHandler} handleThread={threadHandler} handleEmoticon={emoticonHandler} />
         <MessageBox send={handleSend} userInfo={userInfo} setUserInfo={setUserInfo} />
     </VStack>
 }

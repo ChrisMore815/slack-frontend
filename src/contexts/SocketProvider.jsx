@@ -60,8 +60,15 @@ const SocketProvider = (props) => {
             socket.on(socketEvents.DELETECHANNEL, (state) => {
                 if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
             })
+
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
                 if (state == status.ON) setSelectedChMsg(data)
+            })
+            socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
+                if (state === status.ON) setSelectedChMsg(data)
+            })
+            socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
+                if(state === status.ON) setSelectedChMsg(data)
             })
         }
         return () => {
@@ -75,6 +82,7 @@ const SocketProvider = (props) => {
                 socket.removeListener(socketEvents.DELETECHANNEL);
 
                 socket.removeListener(socketEvents.CREATEMESSAGE);
+                socket.removeListener(socketEvents.UPDATEMESSAGE);
             }
         }
     })
