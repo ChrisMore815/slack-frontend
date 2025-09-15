@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
 import MainNav from './MainNav'
@@ -6,23 +6,39 @@ import MainHeader from './MainHeader'
 import MainContent from './MainContent'
 import MessageBox from "../../../components/MessageBox";
 import { SocketContext } from "../../../contexts/SocketProvider";
+import { AuthContext } from "../../../contexts/AuthProvider";
 
 const Main = () => {
 
-    const { socket } = useContext(SocketContext)
+    const { auth } = useContext(AuthContext);
+    const { socket, selectedCurChannel } = useContext(SocketContext);
 
-    const handleChange = (e) => {
-        // socket.emit()
+    const [userInfo, setUserInfo] = useState({
+        sender: '',
+        channelId: "",
+        receivers: [],
+        message: "",
+        files: [],
+        emoticons: [],
+        isPinned: false,
+        parentId: ""
+    });
+
+    useEffect(() => {
+        setUserInfo({...userInfo, channelId: selectedCurChannel._id, })
+    }, [])
+
+    const send = () => {
+
     }
 
-    const { selectedCurChannel } = useContext(SocketContext)
     console.log(selectedCurChannel)
 
     return <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={"0px 8px 8px 0px"}>
         <MainHeader data={selectedCurChannel} />
         <MainNav />
         <MainContent data={selectedCurChannel} />
-        <MessageBox />
+        <MessageBox send={send} userInfo={userInfo} setUserInfo={setUserInfo} />
     </VStack>
 }
 

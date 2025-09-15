@@ -3,6 +3,15 @@ import { VStack, HStack, Textarea, Icon } from "@chakra-ui/react";
 import icons from "../constants/icons";
 
 const MessageBox = (props) => {
+
+    const handleChange = (e) => {
+        props.setuserInfo({ ...props.userInfo, message: e.target.value });
+    }
+
+    const handleSend = () => {
+        props.send();
+    }
+
     return <VStack w={"95%"} h={"180px"} color={'#000'} justify={"center"} align={"center"}>
         <HStack width={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4} >
             <Icon>{icons.typeBold}</Icon>
@@ -12,13 +21,16 @@ const MessageBox = (props) => {
             <Icon>{icons.typeListBulleted}</Icon>
             <Icon>{icons.typeListNumbered}</Icon>
         </HStack>
-        <Textarea resize={"none"} rows={3} width={"100%"} _focus={{ border: "0.5px solid #0004" }} borderRadius={"none"} onChange={props.handleChange} />
-        <HStack w={"100%"} fontSize={"22px"} bg={"#0001"} p={2} gap={4}>
-            <Icon>{icons.plus}</Icon>
-            <Icon>{icons.atmark}</Icon>
-            <Icon>{icons.emoticon}</Icon>
-            <Icon>{icons.camera}</Icon>
-            <Icon>{icons.voice}</Icon>
+        <Textarea resize={"none"} rows={3} width={"100%"} _focus={{ border: "0.5px solid #0004" }} borderRadius={"none"} onChange={handleChange} />
+        <HStack w={"100%"} justify={"space-between"} fontSize={"22px"} bg={"#0001"} p={2} gap={4}>
+            <HStack gap={4}>
+                <Icon>{icons.plus}</Icon>
+                <Icon>{icons.atmark}</Icon>
+                <Icon>{icons.emoticon}</Icon>
+                <Icon>{icons.camera}</Icon>
+                <Icon>{icons.voice}</Icon>
+            </HStack>
+            <Icon onClick={handleSend}>{icons.send}</Icon>
         </HStack>
     </VStack>
 }
