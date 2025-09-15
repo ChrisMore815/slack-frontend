@@ -10,11 +10,11 @@ import * as VscIcons from 'react-icons/vsc';
 import * as FcIcons from 'react-icons/fc';
 
 
-import { Flex, Icon, Text, HStack } from "@chakra-ui/react";
+import { Flex, Wrap, Icon, Text, HStack } from "@chakra-ui/react";
 
 const Icons = () => {
     return (
-        <Flex wrap={'wrap'} justify={"center"} align={"center"}>
+        <Wrap justify={"center"} align={"center"}>
             {Object.keys(TiIcons).map((item, index) => {
                 const FaIcon = TiIcons[item];
                 return <HStack key={index} minW={"400px"} gap={"10"} p={"4"}>
@@ -24,7 +24,7 @@ const Icons = () => {
                     <Text>{item}</Text>
                 </HStack>
             })}
-        </Flex>
+        </Wrap>
     )
 }
 

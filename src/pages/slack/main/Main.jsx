@@ -9,6 +9,12 @@ import { SocketContext } from "../../../contexts/SocketProvider";
 
 const Main = () => {
 
+    const { socket } = useContext(SocketContext)
+
+    const handleChange = (e) => {
+        // socket.emit()
+    }
+
     const { selectedCurChannel } = useContext(SocketContext)
     console.log(selectedCurChannel)
 

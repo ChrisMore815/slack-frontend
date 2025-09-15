@@ -15,7 +15,7 @@ const MainHeader = (props) => {
                 <Box pos={'relative'} w={"48px"} h={"100%"} border={"0.3px solid #0008"}>
                     {props.data.members && props.data.members.map((member, index) => {
                         if (index < 2) {
-                            return <Image w={"24px"} h={"24px"} pos={"absolute"} top={0} left={index * 5} rounded={8} src={`${serverUrl}/avatar/${member.avatar ? member.avatar : 'default.gif'}`} />
+                            return <Image key={index} w={"24px"} h={"24px"} pos={"absolute"} top={0} left={index * 5} rounded={8} src={`${serverUrl}/avatar/${member.avatar ? member.avatar : 'default.gif'}`} />
                         }
                     })}
                 </Box>
