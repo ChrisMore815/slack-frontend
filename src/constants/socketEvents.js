@@ -12,6 +12,9 @@ const socketEvents = {
     READMESSAGE: 'READMESSAGE',
     UPDATEMESSAGE: 'UPDATEMESSAGE',
     DELETEMESSAGE: 'DELETEMESSAGE',
+
+    PINNED: 'PINNED',
+    FILES: 'FILES'
 }
 
 const status = {

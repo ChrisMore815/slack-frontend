@@ -19,6 +19,7 @@ const SocketProvider = (props) => {
     const [showThread, setShowThread] = useState("");
     const [allChannels, setAllChannels] = useState([]);
     const [selectedChMsg, setSelectedChMsg] = useState([]);
+    const [selectedThread, setSelectedThread] = useState([]);
     const [selectedCurChannel, setSelectedCurChannel] = useState({});
     const [userInfo, setUserInfo] = useState({
         sender: null,
@@ -27,7 +28,7 @@ const SocketProvider = (props) => {
         message: "",
         files: [],
         emoticons: [],
-        isPinned: false,
+        isPinned: "",
         parentId: null
     });
 
@@ -43,19 +44,16 @@ const SocketProvider = (props) => {
 
             // Channel
             socket.on(socketEvents.READALLCHANNEL, (state, data) => {
-                let tmp_channels = [];
-                let tmp_dms = [];
                 if (state == status.ON) {
+                    let tmp_channels = [];
+                    let tmp_dms = [];
                     data.forEach((curChannel) => {
-                        if (curChannel.isDm == false) {
-                            tmp_channels.push(curChannel);
-                        } else {
-                            tmp_dms.push(curChannel)
-                        }
+                        if (curChannel.isDm == false) tmp_channels.push(curChannel);
+                        else tmp_dms.push(curChannel);
                     })
+                    setAllDms(tmp_dms);
+                    setAllChannels(tmp_channels);
                 }
-                setAllChannels(tmp_channels)
-                setAllDms(tmp_dms)
             })
             socket.on(socketEvents.CREATECHANNEL, (state) => {
                 if (state == status.ON) socket.emit(socketEvents.READALLCHANNEL);
@@ -74,16 +72,35 @@ const SocketProvider = (props) => {
 
             // Message
             socket.on(socketEvents.READALLMESSAGE, (state, data) => {
-                if (state == status.ON) setSelectedChMsg(data);
+                if (state == status.ON) {
+                    let tmp_threads = [];
+                    let tmp_messages = [];
+                    data.forEach((curMessage) => {
+                        if (curMessage.parentId != null) tmp_threads.push(curMessage);
+                        else tmp_messages.push(curMessage);
+                    })
+                    setSelectedChMsg(tmp_messages);
+                    setSelectedThread(tmp_threads);
+                }
             })
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
-                if (state == status.ON) setSelectedChMsg([...selectedChMsg, data])
+                if (state == status.ON) {
+                    if (data.parentId != null) setSelectedThread([...selectedThread, data])
+                    else setSelectedChMsg([...selectedChMsg, data])
+                }
+            })
+            socket.on(socketEvents.READMESSAGE, (state, data) => {
+                if (state === status.ON) setSelectedThread(data);
             })
             socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
                 if (state === status.ON) setSelectedChMsg(selectedChMsg.map((msg) => msg._id == data._id ? data : msg))
             })
             socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
-                if (state === status.ON) setSelectedChMsg(selectedChMsg.filter(msg => msg._id != data._id))
+                console.log(data)
+                if (state === status.ON) {
+                    if (data.parentId == null) setSelectedChMsg(selectedChMsg.filter(msg => msg._id != data._id))
+                    else setSelectedThread(selectedThread.filter(thread => thread._id != data._id))
+                }
             })
         }
         return () => {
@@ -98,7 +115,9 @@ const SocketProvider = (props) => {
 
                 socket.removeListener(socketEvents.READALLMESSAGE);
                 socket.removeListener(socketEvents.CREATEMESSAGE);
+                socket.removeListener(socketEvents.READMESSAGE);
                 socket.removeListener(socketEvents.UPDATEMESSAGE);
+                socket.removeListener(socketEvents.DELETEMESSAGE);
             }
         }
     })
@@ -129,6 +148,8 @@ const SocketProvider = (props) => {
             setUserInfo,
             selectedChMsg,
             setShowThread,
+            selectedThread,
+            setSelectedThread,
             selectedCurChannel,
         }}
     >

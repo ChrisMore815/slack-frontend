@@ -17,7 +17,7 @@ const Home = () => {
         if (!localStorage.getItem("token")) logOut()
     }, [token])
 
-    return <HStack color={"#fff"} w={"100%"} h={"100%"}>
+    return <HStack color={"#fff"} w={"100%"} flex={"1 1 0"}>
         <SideBar />
         <Main />
         {showThread && <Thread />}

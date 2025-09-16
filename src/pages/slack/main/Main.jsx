@@ -1,19 +1,19 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { VStack } from "@chakra-ui/react";
 
 import MainNav from './MainNav'
 import MainHeader from './MainHeader'
 import MainContent from './MainContent'
 import MessageBox from "../../../components/MessageBox";
-import socketEvents from "../../../constants/socketEvents";
 import { AuthContext } from "../../../contexts/AuthProvider";
 import { SocketContext } from "../../../contexts/SocketProvider";
 
 const Main = () => {
 
     const { auth } = useContext(AuthContext);
-    const { socket, selectedCurChannel, selectedChMsg, showThread, userInfo, setUserInfo } = useContext(SocketContext);
+    const { selectedCurChannel, selectedChMsg, showThread, userInfo, setUserInfo } = useContext(SocketContext);
 
+    const [status, setStatus] = useState('Messages');
 
     useEffect(() => {
         if (selectedCurChannel) {
@@ -33,28 +33,11 @@ const Main = () => {
         }
     }, [showThread])
 
-    const pinHandler = (id, message) => {
-        socket.emit(socketEvents.UPDATEMESSAGE, { id, message: { ...message, sender: message.sender._id } })
-    }
-
-    const editHandler = (id) => {
-        console.log(id)
-    }
-
-    const deleteHandler = (id) => {
-        socket.emit(socketEvents.DELETEMESSAGE, id);
-    }
-
-    const emoticonHandler = () => {
-
-    }
-
-
     return <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}>
         <MainHeader data={selectedCurChannel} />
-        <MainNav />
-        <MainContent msg={selectedChMsg} handleEdit={editHandler} handleDelete={deleteHandler} handlePin={pinHandler} handleEmoticon={emoticonHandler} />
-        <MessageBox userInfo={userInfo} setUserInfo={setUserInfo} />
+        <MainNav status={status} setStatus={setStatus} />
+        <MainContent msg={selectedChMsg} status={status} />
+        <MessageBox />
     </VStack>
 }
 

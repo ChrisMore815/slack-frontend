@@ -5,26 +5,21 @@ import { useContext } from "react";
 import { SocketContext } from "../../../contexts/SocketProvider";
 
 const MainContent = (props) => {
-    const { msg, handleDelete, handleEdit, handlePin, handleEmoticon } = props;
+    const { msg, status } = props;
 
     const { allUsers } = useContext(SocketContext)
 
     return <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
         {
-            msg.length && msg.map((msg, index) => {
-                const curUser = allUsers?.filter((user) => user._id === msg.sender)[0];
-                // console.log(curUser)
-                return <MessageView
-                    msg={msg}
-                    key={index}
-                    curUser={curUser}
-                    handlePin={handlePin}
-                    handleEdit={handleEdit}
-                    // src={curUser.avatar}
-                    handleDelete={handleDelete}
-                    handleEmoticon={handleEmoticon}
-                />
-            })
+            status == "Messages" ?
+                msg.length && msg.map((msg, index) => {
+                    const curUser = allUsers?.filter((user) => user._id === msg.sender)[0];
+                    return <MessageView
+                        msg={msg}
+                        key={index}
+                        curUser={curUser}
+                    />
+                }) : <></>
         }
     </VStack>
 }
@@ -57,9 +52,7 @@ const MainContent = (props) => {
 
 MainContent.propTypes = {
     msg: propTypes.array.isRequired,
-    handlePin: propTypes.func.isRequired,
-    handleEdit: propTypes.func.isRequired,
-    handleDelete: propTypes.func.isRequired
+    status: propTypes.string.isRequired
 }
 
 export default MainContent;
