@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import propTypes from 'prop-types'
 import { HStack, Image, VStack, Wrap, Text, Icon, Flex, Box } from "@chakra-ui/react";
 
@@ -17,7 +17,13 @@ const MessageView = (props) => {
 
     const [show, setShow] = useState("");
     const [view, setView] = useState("");
-    const [emoticon, setEmoticon] = useState([]);
+    const [emoticons, setEmoticons] = useState([]);
+
+    useEffect(() => {
+        let temp_emos = [];
+
+        //  temp_emos = {...temp_emos, recommenders: msg.recommenders.includes(auth._id) ? [...msg.recommenders]}
+    }, [emoticons])
 
     const handleShow = (id) => {
         setShow(id)
@@ -35,9 +41,9 @@ const MessageView = (props) => {
         setView("view")
     }
 
-    const handlePin = (message) => {
-        let temp = message.isPined?.includes(auth._id) ? message.isPined.filter((pinId) => pinId != auth._id) : [...message.isPined, auth._id];
-        socket.emit(socketEvents.UPDATEMESSAGE, { id: message._id, message: { ...message, isPined: [...temp], sender: message.sender } })
+    const handlePin = () => {
+        let temp = msg.isPined?.includes(auth._id) ? msg.isPined.filter((pinId) => pinId != auth._id) : [...msg.isPined, auth._id];
+        socket.emit(socketEvents.UPDATEMESSAGE, { id: msg._id, message: { ...msg, isPined: [...temp], sender: msg.sender } })
     }
 
     const handleThread = (id) => {
@@ -49,16 +55,9 @@ const MessageView = (props) => {
 
     }
 
-    const handleEmoticon = (msg, emoticon) => {
-        // console.log(msg, emoticon)
-        let temp;
-        msg.emoticons.length > 0 ? msg.emoticons.forEach((emoticon) => {
-            console.log(emoticon)
-            return temp = emoticon.recommenders?.includes(auth._id) ? emoticon.recommenders.filter((recommender) => recommender != auth._id) : [...emoticon.recommenders, auth._id]
-        }) : setEmoticon([...emoticon, emoticon])
-        // socket.emit(socketEvents.UPDATEMESSAGE, {id: msg._id, emoticons: msg.emoticons.})
+    const handleEmoticon = (emoticon) => {
+        setEmoticons(emoticons.includes(emoticon) ? emoticons.filter((v) => v != emoticon) : [...emoticons, emoticon])
     }
-    console.log(emoticon);
 
     const handleDelete = (id) => {
         socket.emit(socketEvents.DELETEMESSAGE, id);
@@ -75,7 +74,7 @@ const MessageView = (props) => {
                         <HStack pos={"relative"} onMouseOver={handleView} onMouseLeave={handleV}>
                             <Icon cursor={"pointer"}>{icons.emoticon}</Icon>
                             <Flex display={view ? "flex" : "none"} justify={"center"} align={"center"} p={"8px"} border={"1px solid #ccc"} bg={"#fff"} boxShadow={"0px 0px 5px 0px #323232"} pos={"absolute"} zIndex={10} top={"20px"} right={0} minW={"200px"} maxH={"160px"}>
-                                <Emoticons handleRecommend={handleEmoticon} msg={msg} />
+                                <Emoticons handleRecommend={handleEmoticon} msg={msg} emo={emoticons} />
                             </Flex>
                         </HStack>
                         <Icon cursor={"pointer"} display={selectedCurChannel.isDm == false ? "flex" : "none"} onClick={() => handleThread(msg._id)}>{icons.threads}</Icon>
