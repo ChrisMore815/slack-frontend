@@ -11,6 +11,7 @@ const icons = {
     camera: <Md.MdVideoCameraFront />,
     caretLeft: <Fa.FaCaretLeft />,
     caretDown: <Fa.FaCaretDown />,
+    close: <Fa.FaTimes />,
     delete: <Fa.FaTrash />,
     earphone: <Fa.FaHeadphonesAlt />,
     edit: <Fa.FaEdit />,

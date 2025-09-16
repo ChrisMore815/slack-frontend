@@ -16,9 +16,21 @@ const SocketProvider = (props) => {
 
     const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
+    const [showThread, setShowThread] = useState("");
     const [allChannels, setAllChannels] = useState([]);
     const [selectedChMsg, setSelectedChMsg] = useState([]);
     const [selectedCurChannel, setSelectedCurChannel] = useState({});
+    const [userInfo, setUserInfo] = useState({
+        sender: null,
+        channelId: null,
+        receivers: [],
+        message: "",
+        files: [],
+        emoticons: [],
+        isPinned: false,
+        parentId: null
+    });
+
 
     useEffect(() => {
         if (socket) {
@@ -28,10 +40,13 @@ const SocketProvider = (props) => {
                     api.get('/user').then((res) => { setAllUsers(res.data) }).catch((err) => { console.log(err) })
                 }
             })
+
+            // Channel
             socket.on(socketEvents.READALLCHANNEL, (state, data) => {
                 let tmp_channels = [];
                 let tmp_dms = [];
                 if (state == status.ON) {
+                    console.log(data)
                     data.forEach((curChannel) => {
                         if (curChannel.isDm == false) {
                             tmp_channels.push(curChannel);
@@ -48,10 +63,7 @@ const SocketProvider = (props) => {
 
             })
             socket.on(socketEvents.READCHANNEL, (state, data) => {
-                if (state == status.ON) {
-                    setSelectedChMsg(data.msg);
-                    setSelectedCurChannel(data.ch);
-                };
+                if (state == status.ON) setSelectedCurChannel(data);
             })
             socket.on(socketEvents.UPDATECHANNEL, (state, data) => {
                 if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
@@ -61,15 +73,20 @@ const SocketProvider = (props) => {
                 if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
             })
 
+            // Message
+            socket.on(socketEvents.READALLMESSAGE, (state, data) => {
+                console.log(data)
+                if (state == status.ON) setSelectedChMsg(data);
+            })
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
-                if (state == status.ON) setSelectedChMsg(data)
+                if (state == status.ON) setSelectedChMsg([...selectedChMsg, data]);
             })
-            socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
-                if (state === status.ON) setSelectedChMsg(data)
-            })
-            socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
-                if(state === status.ON) setSelectedChMsg(data)
-            })
+            // socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
+            //     if (state === status.ON) setSelectedChMsg(data)
+            // })
+            // socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
+            //     if (state === status.ON) setSelectedChMsg(data)
+            // })
         }
         return () => {
             if (socket) {
@@ -81,6 +98,7 @@ const SocketProvider = (props) => {
                 socket.removeListener(socketEvents.UPDATECHANNEL);
                 socket.removeListener(socketEvents.DELETECHANNEL);
 
+                socket.removeListener(socketEvents.READALLMESSAGE);
                 socket.removeListener(socketEvents.CREATEMESSAGE);
                 socket.removeListener(socketEvents.UPDATEMESSAGE);
             }
@@ -98,7 +116,24 @@ const SocketProvider = (props) => {
         if (allChannels.length > 0) socket.emit(socketEvents.READCHANNEL, allChannels[0])
     }, [allChannels])
 
-    return <SocketContext.Provider value={{ socket, allChannels, selectedCurChannel, allUsers, allDms, selectedChMsg }}>
+    useEffect(() => {
+        if (selectedCurChannel._id) socket.emit(socketEvents.READALLMESSAGE, selectedCurChannel._id)
+    }, [selectedCurChannel])
+
+    return <SocketContext.Provider
+        value={{
+            allDms,
+            socket,
+            allUsers,
+            userInfo,
+            showThread,
+            allChannels,
+            setUserInfo,
+            selectedChMsg,
+            setShowThread,
+            selectedCurChannel,
+        }}
+    >
         {props.children}
     </SocketContext.Provider>
 }

@@ -15,8 +15,8 @@ import { Flex, Wrap, Icon, Text, HStack } from "@chakra-ui/react";
 const Icons = () => {
     return (
         <Wrap justify={"center"} align={"center"}>
-            {Object.keys(FaIcons).map((item, index) => {
-                const FaIcon = FaIcons[item];
+            {Object.keys(HiIcons).map((item, index) => {
+                const FaIcon = HiIcons[item];
                 return <HStack key={index} minW={"400px"} gap={"10"} p={"4"}>
                     <Icon fontSize={"24px"}>
                         <FaIcon />

@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { VStack, HStack, Textarea, Icon } from "@chakra-ui/react";
 import icons from "../constants/icons";
+import { SocketContext } from "../contexts/SocketProvider";
 
 const MessageBox = (props) => {
 
-    const { userInfo, setUserInfo, send } = props;
+    const { send } = props;
+    const { userInfo, setUserInfo } = useContext(SocketContext)
 
     const handleChange = (e) => {
         setUserInfo({ ...userInfo, message: e.target.value });

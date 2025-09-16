@@ -61,7 +61,7 @@ const SideBar = () => {
                 <VStack w={"100%"} gap={1}>
                     {
                         allChannels && allChannels.map((channel, index) => {
-                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} bg={selectedCurChannel._id == channel._id ? "#fff" : "none"} color={selectedCurChannel._id === channel._id ? "var(--primary)" : "#fff"} px={2} gap={2} fontSize={"16px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
+                            return <HStack w={'100%'} justify={"space-between"} cursor={"pointer"} bg={selectedCurChannel._id == channel._id ? "#fff" : "none"} color={selectedCurChannel._id === channel._id ? "var(--primary)" : "#fff"} px={2} py={0.5} gap={2} fontSize={"16px"} key={index} rounded={4} _hover={{ bg: "#fff", color: "var(--primary)" }}>
                                 <HStack gap={2} onClick={() => handleSelectChannel(channel._id)}>
                                     <Text>#</Text>
                                     <Text>{channel.name}</Text>
