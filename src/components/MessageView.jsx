@@ -155,8 +155,14 @@ const MessageView = (props) => {
                 <HStack w={"100%"} gap={2} fontSize={"18px"}>
                     {msg.emoticons?.map((value, index) => {
                         return (
-                            <HStack justify={"flex-start"} key={index} display={value?.recommenders.length ? "flex" : "none"}>
-                                <Text onClick={() => handleEmoticon(value.code)}>{value?.recommenders.length ? value?.code : ""}</Text>
+                            <HStack
+                                key={index}
+                                justify={"flex-start"}
+                                cursor={"pointer"}
+                                onClick={() => handleEmoticon(value.code)}
+                                display={value?.recommenders.length ? "flex" : "none"}
+                            >
+                                <Text>{value?.recommenders.length ? value?.code : ""}</Text>
                                 <Text>{value?.recommenders.length ? value?.recommenders.length : ""}</Text>
                             </HStack>
                         );
