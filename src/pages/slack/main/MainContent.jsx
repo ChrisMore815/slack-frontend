@@ -12,7 +12,7 @@ const MainContent = (props) => {
     return <VStack w={"100%"} flex={"1 1 0"} overflowY={"auto"} gap={2} p={4}>
         {
             msg.length && msg.map((msg, index) => {
-                const curUser = allUsers.filter((user) => user._id === msg.sender)[0];
+                const curUser = allUsers?.filter((user) => user._id === msg.sender)[0];
                 // console.log(curUser)
                 return <MessageView
                     msg={msg}

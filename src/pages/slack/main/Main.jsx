@@ -45,10 +45,6 @@ const Main = () => {
         socket.emit(socketEvents.DELETEMESSAGE, id);
     }
 
-    const handleSend = () => {
-        socket.emit(socketEvents.CREATEMESSAGE, userInfo);
-    }
-
     const emoticonHandler = () => {
 
     }
@@ -58,7 +54,7 @@ const Main = () => {
         <MainHeader data={selectedCurChannel} />
         <MainNav />
         <MainContent msg={selectedChMsg} handleEdit={editHandler} handleDelete={deleteHandler} handlePin={pinHandler} handleEmoticon={emoticonHandler} />
-        <MessageBox send={handleSend} userInfo={userInfo} setUserInfo={setUserInfo} />
+        <MessageBox userInfo={userInfo} setUserInfo={setUserInfo} />
     </VStack>
 }
 

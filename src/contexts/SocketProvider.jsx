@@ -46,7 +46,6 @@ const SocketProvider = (props) => {
                 let tmp_channels = [];
                 let tmp_dms = [];
                 if (state == status.ON) {
-                    console.log(data)
                     data.forEach((curChannel) => {
                         if (curChannel.isDm == false) {
                             tmp_channels.push(curChannel);
@@ -58,14 +57,14 @@ const SocketProvider = (props) => {
                 setAllChannels(tmp_channels)
                 setAllDms(tmp_dms)
             })
-            socket.on(socketEvents.CREATECHANNEL, (state, data) => {
+            socket.on(socketEvents.CREATECHANNEL, (state) => {
                 if (state == status.ON) socket.emit(socketEvents.READALLCHANNEL);
 
             })
             socket.on(socketEvents.READCHANNEL, (state, data) => {
                 if (state == status.ON) setSelectedCurChannel(data);
             })
-            socket.on(socketEvents.UPDATECHANNEL, (state, data) => {
+            socket.on(socketEvents.UPDATECHANNEL, (state) => {
                 if (state === status.ON) socket.emit(socketEvents.READALLCHANNEL);
 
             })
@@ -75,18 +74,17 @@ const SocketProvider = (props) => {
 
             // Message
             socket.on(socketEvents.READALLMESSAGE, (state, data) => {
-                console.log(data)
                 if (state == status.ON) setSelectedChMsg(data);
             })
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
-                if (state == status.ON) setSelectedChMsg([...selectedChMsg, data]);
+                if (state == status.ON) setSelectedChMsg([...selectedChMsg, data])
             })
-            // socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
-            //     if (state === status.ON) setSelectedChMsg(data)
-            // })
-            // socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
-            //     if (state === status.ON) setSelectedChMsg(data)
-            // })
+            socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
+                if (state === status.ON) setSelectedChMsg(selectedChMsg.map((msg) => msg._id == data._id ? data : msg))
+            })
+            socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
+                if (state === status.ON) setSelectedChMsg(selectedChMsg.filter(msg => msg._id != data._id))
+            })
         }
         return () => {
             if (socket) {

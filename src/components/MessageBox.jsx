@@ -1,19 +1,18 @@
 import React, { useContext } from "react";
 import { VStack, HStack, Textarea, Icon } from "@chakra-ui/react";
 import icons from "../constants/icons";
+import socketEvents from "../constants/socketEvents";
 import { SocketContext } from "../contexts/SocketProvider";
 
-const MessageBox = (props) => {
-
-    const { send } = props;
-    const { userInfo, setUserInfo } = useContext(SocketContext)
+const MessageBox = () => {
+    const { userInfo, setUserInfo, socket } = useContext(SocketContext)
 
     const handleChange = (e) => {
         setUserInfo({ ...userInfo, message: e.target.value });
     }
 
     const handleSend = () => {
-        send();
+        socket.emit(socketEvents.CREATEMESSAGE, userInfo);
     }
 
     return <VStack w={"95%"} h={"180px"} color={'#000'} justify={"center"} align={"center"}>
