@@ -71,7 +71,6 @@ const MessageView = (props) => {
                 },
             ];
         }
-        console.log(temp);
         socket.emit(socketEvents.UPDATEMESSAGE, { id: msg._id, message: { ...msg, emoticons: [...temp] } });
     };
 

@@ -88,7 +88,7 @@ const SocketProvider = (props) => {
             });
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
                 if (state == status.ON) {
-                    console.log(data)
+                    console.log(data);
                     if (data.parentId != null) setSelectedThread([...selectedThread, data]);
                     else setSelectedChMsg([...selectedChMsg, data]);
                 }
