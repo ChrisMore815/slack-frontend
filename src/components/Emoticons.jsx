@@ -5,7 +5,7 @@ import { emoticons } from '../constants/emoticons';
 const Emoticons = (props) => {
     return <Wrap minW={"100%"} h={"100px"} overflowY={"auto"} >
         {emoticons.map((value, index) => {
-            return <Box p={0.5} key={index} id={value.id} bg={props.emo.includes(value.icon) ? "#ddd" : "none"} onClick={() => props.handleRecommend(props.msg, value.icon)}>
+            return <Box p={0.5} key={index} id={value.id} bg={props.msg.emoticons.includes(value.icon) ? "#ddd" : "none"} onClick={() => props.handleRecommend(props.msg, value.icon)}>
                 {value.icon}
             </Box>
         })}
