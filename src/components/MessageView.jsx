@@ -48,18 +48,21 @@ const MessageView = (props) => {
 
     const handleEmoticon = (emoticon) => {
         let temp = [];
-        if (msg.emoticons.length > 0) {
-            temp = msg.emoticons.map((emo) => {
-                console.log(emo, "emoticons");
-                if (emo.code == emoticon) {
-                    return;
-                } else {
-                    return {
-                        recommenders: emo.recommenders?.includes(auth._id) ? [...emo.recommenders] : [...emo.recommenders, auth._id],
-                        code: emoticon,
-                    };
-                }
-            });
+        if (msg.emoticons.length) {
+            temp = msg.emoticons.find((emo) => emo.code === emoticon)
+                ? msg.emoticons.map((emo) => {
+                      if (emo.code === emoticon) {
+                          return {
+                              ...emo,
+                              recommenders: emo.recommenders.includes(auth._id)
+                                  ? emo.recommenders.filter((recommender) => recommender != auth._id)
+                                  : [...emo.recommenders, auth._id],
+                          };
+                      } else {
+                          return emo;
+                      }
+                  })
+                : [...msg.emoticons, { recommenders: [auth._id], code: emoticon }];
         } else {
             temp = [
                 {
@@ -68,9 +71,8 @@ const MessageView = (props) => {
                 },
             ];
         }
-        console.log(msg.emoticons);
+        console.log(temp);
         socket.emit(socketEvents.UPDATEMESSAGE, { id: msg._id, message: { ...msg, emoticons: [...temp] } });
-        // setEmoticons(emoticons.includes(emoticon) ? emoticons.filter((v) => v != emoticon) : [...emoticons, emoticon])
     };
 
     const handleDelete = (id) => {
@@ -150,14 +152,24 @@ const MessageView = (props) => {
                 <Wrap flex={"1 1 0"} w={"100%"}>
                     <Text>{msg.message}</Text>
                 </Wrap>
+                <HStack w={"100%"} gap={2} fontSize={"18px"}>
+                    {msg.emoticons?.map((value, index) => {
+                        return (
+                            <HStack justify={"flex-start"} key={index} display={value?.recommenders.length ? "flex" : "none"}>
+                                <Text onClick={() => handleEmoticon(value.code)}>{value?.recommenders.length ? value?.code : ""}</Text>
+                                <Text>{value?.recommenders.length ? value?.recommenders.length : ""}</Text>
+                            </HStack>
+                        );
+                    })}
+                </HStack>
             </VStack>
         </HStack>
     );
 };
 
 MessageView.propTypes = {
+    curUser: propTypes.object,
     msg: propTypes.object.isRequired,
-    curUser: propTypes.object.isRequired,
 };
 
 export default MessageView;
