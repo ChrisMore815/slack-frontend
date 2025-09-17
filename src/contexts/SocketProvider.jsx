@@ -98,7 +98,10 @@ const SocketProvider = (props) => {
                 if (state === status.ON) setSelectedThread(data);
             });
             socket.on(socketEvents.UPDATEMESSAGE, (state, data) => {
-                if (state === status.ON) setSelectedChMsg(selectedChMsg.map((msg) => (msg._id == data._id ? data : msg)));
+                if (state === status.ON) {
+                    if (data.parentId !== null) setSelectedThread(selectedThread.map((thread) => (thread._id == data._id ? data : thread)));
+                    else setSelectedChMsg(selectedChMsg.map((msg) => (msg._id == data._id ? data : msg)));
+                }
             });
             socket.on(socketEvents.DELETEMESSAGE, (state, data) => {
                 if (state === status.ON) {

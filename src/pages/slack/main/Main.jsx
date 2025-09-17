@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect,     useState } from "react";
 
 import { VStack } from "@chakra-ui/react";
 
@@ -38,7 +38,7 @@ const Main = () => {
             <MainHeader />
             <MainNav status={status} setStatus={setStatus} />
             <MainContent status={status} />
-            <MessageBox />
+            <MessageBox reftype={"main"} />
         </VStack>
     );
 };

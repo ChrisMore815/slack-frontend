@@ -104,7 +104,7 @@ const MessageView = (props) => {
                             border={"1px solid #ddd"}
                             display={show == msg._id ? "flex" : "none"}
                         >
-                            <Icon cursor={"pointer"} onClick={() => handlePin(msg)}>
+                            <Icon cursor={"pointer"} onClick={() => handlePin(msg)} display={msg.parentId != null ? "none" : "flex"}>
                                 {msg.isPined.includes(auth._id) ? icons.pinned : icons.pin}
                             </Icon>
                             <HStack pos={"relative"} onMouseOver={handleView} onMouseLeave={handleV}>

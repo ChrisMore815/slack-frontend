@@ -28,7 +28,7 @@ const Thread = () => {
                     <></>
                 )}
             </VStack>
-            <MessageBox />
+            <MessageBox reftype={"thread"} />
         </VStack>
     );
 };
