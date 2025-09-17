@@ -13,7 +13,7 @@ const MessageView = (props) => {
     const { curUser, msg } = props;
 
     const { auth } = useContext(AuthContext);
-    const { setShowThread, socket, selectedCurChannel } = useContext(SocketContext);
+    const { setShowThread, socket, selectedCurChannel, allUsers } = useContext(SocketContext);
 
     const [show, setShow] = useState("");
     const [view, setView] = useState("");
@@ -90,7 +90,7 @@ const MessageView = (props) => {
             onMouseOver={() => handleShow(msg._id)}
         >
             <Image w={"40px"} rounded={8} h={"40px"} src={`${process.env.REACT_APP_BASE_URL}/avatar/${curUser.avatar}`} />
-            <VStack flex={"1 1 0"} h={"100%"}>
+            <VStack flex={"1 1 0"} h={"100%"} gap={2}>
                 <VStack h={"40px"} w={"100%"}>
                     <HStack w={"100%"} justify={"space-between"} pos={"relative"}>
                         <Text>{curUser.username}</Text>
@@ -144,8 +144,16 @@ const MessageView = (props) => {
                             </HStack>
                         </HStack>
                     </HStack>
-                    <HStack w={"100%"}>
-                        <Text>{}</Text>
+                    <HStack w={"100%"} gap={2}>
+                        {allUsers.map((user, index) => {
+                            if (msg.receivers.includes(user._id)) {
+                                return (
+                                    <Text key={index} bg={"#ddd"}>
+                                        @{user.username}
+                                    </Text>
+                                );
+                            }
+                        })}
                     </HStack>
                 </VStack>
                 <Wrap flex={"1 1 0"} w={"100%"}>

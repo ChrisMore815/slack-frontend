@@ -2,20 +2,20 @@ import React, { useContext, useEffect, useState } from "react";
 import propTypes from "prop-types";
 
 import {
-    Modal,
-    ModalOverlay,
-    ModalHeader,
-    ModalContent,
-    ModalBody,
     Text,
+    Modal,
     VStack,
     HStack,
-    Checkbox,
-    ModalFooter,
     Button,
+    Checkbox,
+    ModalBody,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    ModalContent,
 } from "@chakra-ui/react";
 
-import BadgeAvatar from "src/componentsBadgeAvatar";
+import BadgeAvatar from "src/components/BadgeAvatar";
 import socketEvents from "src/constants/socketEvents";
 import { AuthContext } from "src/contexts/AuthProvider";
 import { SocketContext } from "src/contexts/SocketProvider";
@@ -76,7 +76,7 @@ const CreateDM = (props) => {
                                             bg={curD.members.includes(user._id) ? "#5c275cff" : "none"}
                                         >
                                             <HStack w={"100%"} px={8} gap={2}>
-                                                <BadgeAvatar status={user.status} src={"default.gif"} />
+                                                <BadgeAvatar status={user.status} src={user.avatar} />
                                                 <Text>{user.username}</Text>
                                             </HStack>
                                         </Checkbox>

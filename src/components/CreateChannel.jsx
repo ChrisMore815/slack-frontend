@@ -16,7 +16,7 @@ import {
     ModalOverlay,
 } from "@chakra-ui/react";
 
-import BadgeAvatar from "src/componentsBadgeAvatar";
+import BadgeAvatar from "src/components/BadgeAvatar";
 import socketEvents from "src/constants/socketEvents";
 import { AuthContext } from "src/contexts/AuthProvider";
 import { SocketContext } from "src/contexts/SocketProvider";
@@ -95,13 +95,13 @@ const CreateChannel = (props) => {
                                             key={index}
                                             rounded={8}
                                             _hover={{ bg: "#5c275cff" }}
-                                            isChecked={curC.members.includes(user._id)}
                                             onChange={() => handleSelect(user._id)}
+                                            isChecked={curC.members.includes(user._id)}
                                             bg={curC.members.includes(user._id) ? "#5c275cff" : "none"}
                                         >
                                             <HStack w={"100%"} px={8} gap={2} justify={"space-between"}>
                                                 <HStack gap={2}>
-                                                    <BadgeAvatar status={user.status} src={"default.gif"} />
+                                                    <BadgeAvatar status={user.status} src={user.avatar} />
                                                     <Text>{user.username}</Text>
                                                 </HStack>
                                             </HStack>

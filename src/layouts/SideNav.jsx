@@ -17,7 +17,7 @@ import {
 import Badge from "src/components/Badge";
 import BadgeAvatar from "src/components/BadgeAvatar";
 import socketEvents from "src/constants/socketEvents";
-import { sidenav } from "src/layoutssidenavconstants";
+import { sidenav } from "src/layouts/sidenavconstants";
 import { AuthContext } from "src/contexts/AuthProvider";
 import { SocketContext } from "src/contexts/SocketProvider";
 
@@ -54,7 +54,7 @@ const SideNav = () => {
                 <Popover>
                     <PopoverTrigger>
                         <Box w={"100%"}>
-                            <BadgeAvatar src={"default.gif"} status={auth.status < 2 && auth.status > -2 ? auth.status : -1} />
+                            <BadgeAvatar src={auth.avatar ? auth.avatar: "default.gif"} status={auth.status < 2 && auth.status > -2 ? auth.status : -1} />
                         </Box>
                     </PopoverTrigger>
                     <PopoverContent w={"fit-content"}>

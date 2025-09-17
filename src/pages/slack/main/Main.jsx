@@ -35,9 +35,9 @@ const Main = () => {
 
     return (
         <VStack flex={"1 1 0"} bg={"#fff"} height={"100%"} rounded={showThread == "" ? "0px 8px 8px 0px" : "none"}>
-            <MainHeader data={selectedCurChannel} />
+            <MainHeader />
             <MainNav status={status} setStatus={setStatus} />
-            <MainContent msg={selectedChMsg} status={status} />
+            <MainContent status={status} />
             <MessageBox />
         </VStack>
     );

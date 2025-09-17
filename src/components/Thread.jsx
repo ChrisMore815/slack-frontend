@@ -3,8 +3,8 @@ import React, { useContext } from "react";
 import { HStack, Icon, Text, VStack } from "@chakra-ui/react";
 import icons from "src/constants/icons";
 
-import MessageBox from "src/componentsMessageBox";
-import MessageView from "src/componentsMessageView";
+import MessageBox from "src/components/MessageBox";
+import MessageView from "src/components/MessageView";
 import { SocketContext } from "src/contexts/SocketProvider";
 
 const Thread = () => {

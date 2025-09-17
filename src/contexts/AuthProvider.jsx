@@ -21,7 +21,7 @@ const AuthProvider = (props) => {
 
     const signup = async (data) => {
         try {
-            const response = await api.post("/auth/signup", data /* , { headers: { "Content-Type": "multipart/form-data" } } */);
+            const response = await api.post("/auth/signup", data , { headers: { "Content-Type": "multipart/form-data" } });
             if (response.status == 200) {
                 toast("SignUp success", { type: "success" });
                 setAuth({ ...response.data.payload });

@@ -43,13 +43,13 @@ const SideBar = () => {
         <VStack w={"var(--sidebar)"} h={"100%"} overflowY={"auto"} bg={"#5c275cff"} rounded={"8px 0px 0px 8px"} p={"16px"}>
             <VStack w={"full"} gap={8} px={"8px"} justify={"flex-start"} align={"flex-start"}>
                 <HStack
-                    justify={"space-between"}
-                    align={"center"}
                     w={"100%"}
-                    cursor={"pointer"}
-                    _hover={{ bg: "#fff", color: "var(--primary)" }}
-                    p={"2px 4px 2px 16px"}
                     rounded={4}
+                    align={"center"}
+                    cursor={"pointer"}
+                    p={"2px 4px 2px 16px"}
+                    justify={"space-between"}
+                    _hover={{ bg: "#fff", color: "var(--primary)" }}
                 >
                     <HStack gap={1}>
                         <Text>dogstarcoin</Text>
@@ -63,12 +63,12 @@ const SideBar = () => {
                 </HStack>
                 <VStack w={"100%"}>
                     <HStack
+                        gap={1}
                         w={"100%"}
+                        rounded={4}
                         p={"2px 8px"}
                         cursor={"pointer"}
                         _hover={{ bg: "#fff", color: "var(--primary)" }}
-                        gap={1}
-                        rounded={4}
                     >
                         <Icon transform={"rotateY(180deg)"} fontSize={"20px"} pt={"4px"}>
                             {icons.threads}
@@ -78,12 +78,12 @@ const SideBar = () => {
                 </VStack>
                 <VStack w={"100%"} gap={1}>
                     <HStack
-                        w={"100%"}
                         gap={1}
+                        w={"100%"}
+                        rounded={4}
                         p={"2px 8px"}
                         cursor={"pointer"}
                         _hover={{ bg: "#fff", color: "var(--primary)" }}
-                        rounded={4}
                     >
                         <Icon fontSize={"20px"} pt={"3px"}>
                             {icons.caretDown}
@@ -95,18 +95,18 @@ const SideBar = () => {
                             allChannels.map((channel, index) => {
                                 return (
                                     <HStack
-                                        w={"100%"}
-                                        justify={"space-between"}
-                                        cursor={"pointer"}
-                                        bg={selectedCurChannel._id == channel._id ? "#fff" : "none"}
-                                        color={selectedCurChannel._id === channel._id ? "var(--primary)" : "#fff"}
                                         px={2}
-                                        py={0.5}
                                         gap={2}
-                                        fontSize={"16px"}
+                                        py={0.5}
+                                        w={"100%"}
                                         key={index}
                                         rounded={4}
+                                        fontSize={"16px"}
+                                        cursor={"pointer"}
+                                        justify={"space-between"}
                                         _hover={{ bg: "#fff", color: "var(--primary)" }}
+                                        bg={selectedCurChannel._id == channel._id ? "#fff" : "none"}
+                                        color={selectedCurChannel._id === channel._id ? "var(--primary)" : "#fff"}
                                     >
                                         <HStack gap={2} onClick={() => handleSelectChannel(channel._id)}>
                                             <Text>#</Text>
@@ -121,13 +121,13 @@ const SideBar = () => {
                             })}
                     </VStack>
                     <HStack
-                        w={"100%"}
-                        p={"2px 8px"}
                         gap={1}
-                        cursor={"pointer"}
-                        _hover={{ bg: "#fff", color: "var(--primary)" }}
+                        w={"100%"}
                         rounded={4}
+                        p={"2px 8px"}
+                        cursor={"pointer"}
                         onClick={handleShowCreateModal}
+                        _hover={{ bg: "#fff", color: "var(--primary)" }}
                     >
                         <Icon fontSize={"20px"} pt={"4px"}>
                             {icons.plus}
@@ -137,12 +137,12 @@ const SideBar = () => {
                 </VStack>
                 <VStack w={"100%"} gap={1}>
                     <HStack
-                        w={"100%"}
                         gap={1}
+                        w={"100%"}
+                        rounded={4}
                         p={"2px 8px"}
                         cursor={"pointer"}
                         _hover={{ bg: "#fff", color: "var(--primary)" }}
-                        rounded={4}
                     >
                         <Icon fontSize={"20px"} pt={"3px"}>
                             {icons.caretDown}
@@ -158,33 +158,33 @@ const SideBar = () => {
                                             if (member._id == user._id)
                                                 return (
                                                     <HStack
-                                                        p={"2px 8px"}
-                                                        onClick={() => handleSelectChannel(dm._id)}
-                                                        key={index}
+                                                        py={1}
+                                                        gap={4}
                                                         w={"100%"}
+                                                        key={index}
+                                                        rounded={4}
+                                                        p={"2px 8px"}
+                                                        cursor={"pointer"}
+                                                        justify={"space-between"}
+                                                        onClick={() => handleSelectChannel(dm._id)}
+                                                        _hover={{ bg: "#fff", color: "var(--primary)" }}
                                                         bg={selectedCurChannel._id == dm._id ? "#fff" : "none"}
                                                         color={selectedCurChannel._id === dm._id ? "var(--primary)" : "#fff"}
-                                                        py={1}
-                                                        _hover={{ bg: "#fff", color: "var(--primary)" }}
-                                                        rounded={4}
-                                                        cursor={"pointer"}
-                                                        gap={4}
-                                                        justify={"space-between"}
                                                     >
                                                         <HStack gap={2}>
                                                             <BadgeAvatar
                                                                 width={"28px"}
                                                                 height={"28px"}
-                                                                src={"default.gif"}
+                                                                src={user.avatar}
                                                                 status={user.status * 1}
                                                             />
                                                             <Text>{user.username}</Text>
                                                         </HStack>
                                                         <Icon
-                                                            display={user._id == auth._id ? "flex" : "nones"}
                                                             pt={1}
                                                             fontSize={"18px"}
                                                             onClick={() => handleDelete(dm._id)}
+                                                            display={user._id == auth._id ? "flex" : "nones"}
                                                         >
                                                             {icons.delete}
                                                         </Icon>
@@ -196,13 +196,13 @@ const SideBar = () => {
                             })}
                     </VStack>
                     <HStack
-                        w={"100%"}
-                        p={"2px 8px"}
                         gap={1}
-                        cursor={"pointer"}
-                        _hover={{ bg: "#fff", color: "var(--primary)" }}
+                        w={"100%"}
                         rounded={4}
+                        p={"2px 8px"}
+                        cursor={"pointer"}
                         onClick={handleShowCreateDMModal}
+                        _hover={{ bg: "#fff", color: "var(--primary)" }}
                     >
                         <Icon fontSize={"20px"} pt={"4px"}>
                             {icons.plus}

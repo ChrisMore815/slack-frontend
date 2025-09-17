@@ -34,16 +34,16 @@ const MessageBox = () => {
 
         if (value.endsWith("@")) {
             if (inputRef.current) {
+                console.log(inputRef)
                 const rect = inputRef.current.getBoundingClientRect();
+                console.log(rect, window.scrollY);
                 setPosition({
-                    bottom: rect.top + window.scrollY,
+                    top: rect.top + window.scrollY,
                     left: rect.left + window.scrollX,
                 });
                 setFilteredOptions(allUsers);
             }
         } else {
-            if ((code == "ControlRight" || code == "ControlLeft") && e.code == "Enter") handleSend();
-            setCode(e.code);
             setFilteredOptions([]);
             setMessageInfo({ ...messageInfo, message: e.target.value });
         }
@@ -55,16 +55,8 @@ const MessageBox = () => {
     };
 
     const handleEnter = (e) => {
-        // console.log("%csrcpages\testTest.jsx:22 e.key", "color: #007acc;", e.key);
-        if (e.key == "@") {
-            if (inputRef.current) {
-                const position = inputRef.current.selectionStart;
-                setCursorPosition(position);
-                setModalVisible(true);
-            }
-        }
-        if ((code == "ControlRight" || code == "ControlLeft") && e.code == "Enter") handleSend();
         setCode(e.code);
+        if ((code == "ControlRight" || code == "ControlLeft") && e.code == "Enter") handleSend();
     };
 
     const handleOptionClick = (option, username) => {
@@ -76,13 +68,10 @@ const MessageBox = () => {
                     : [...messageInfo.receivers, option]
                 : [option],
         });
+        inputRef.current.focus();
         setMessage(message + "" + username + " ");
         setFilteredOptions([]);
-        // setPosition(null);
     };
-
-    console.log(message);
-    console.log(messageInfo);
 
     return (
         <VStack w={"95%"} h={"180px"} color={"#000"} justify={"center"} align={"center"}>
@@ -101,9 +90,9 @@ const MessageBox = () => {
                 ref={inputRef}
                 resize={"none"}
                 borderRadius={"none"}
-                value={message ? message : ""}
+                onKeyDown={handleEnter}
                 onChange={handleInputChange}
-                // onChange={handleChange}
+                value={message ? message : ""}
                 _focus={{ border: "0.5px solid #0004" }}
             />
             <HStack w={"100%"} justify={"space-between"} fontSize={"22px"} bg={"#0001"} p={2} gap={4}>
@@ -116,7 +105,7 @@ const MessageBox = () => {
                         <MenuList>
                             {allUsers.map((user, index) => {
                                 return (
-                                    <MenuItem p={2} px={4} key={index} /* _hover={{ bg: "#ddd" }} */>
+                                    <MenuItem p={2} px={4} key={index}>
                                         <BadgeAvatar src={user.avatar} status={user.status} />
                                         <Text>{user.username}</Text>
                                     </MenuItem>
@@ -135,12 +124,13 @@ const MessageBox = () => {
 
             {position && filteredOptions.length > 0 && (
                 <List
-                    spacing={1}
-                    border="1px"
-                    borderColor="gray.200"
-                    borderRadius="md"
                     mt={1}
-                    position="absolute"
+                    spacing={1}
+                    border={"1px"}
+                    borderRadius={"md"}
+                    position={"absolute"}
+                    borderColor={"gray.200"}
+                    transform={"translate(0%, -100%)"}
                     style={{ top: position.top, left: position.left }}
                 >
                     {allUsers.map((user) => {
@@ -148,7 +138,7 @@ const MessageBox = () => {
                             <ListItem
                                 p={2}
                                 key={user._id}
-                                cursor="pointer"
+                                cursor={"pointer"}
                                 _hover={{ bg: "gray.100" }}
                                 onClick={user.receivers?.includes(user._id) ? () => {} : () => handleOptionClick(user._id, user.username)}
                             >
