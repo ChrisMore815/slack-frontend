@@ -2,9 +2,9 @@ import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { HStack, VStack, Input, Text, Button, Icon /* , Avatar */ } from "@chakra-ui/react";
-import icons from ".src/.src/constants/icons";
+import icons from "src/constants/icons";
 
-import { AuthContext } from ".src/.src/contexts/AuthProvider";
+import { AuthContext } from "src/contexts/AuthProvider";
 
 const SignUp = () => {
     const { signup } = useContext(AuthContext);

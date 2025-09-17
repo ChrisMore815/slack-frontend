@@ -4,12 +4,11 @@ import propTypes from "prop-types";
 import { HStack, Text, Icon, Box, Image } from "@chakra-ui/react";
 import icons from "src/constants/icons";
 
-import { serverUrl } from "../../../constants/serverUrl";
-import { AuthContext } from "../../../contexts/AuthProvider";
+import { serverUrl } from "src/constants/serverUrl";
+import { AuthContext } from "src/contexts/AuthProvider";
 
 const MainHeader = (props) => {
     const { auth } = useContext(AuthContext);
-    console.log('%csrc\pages\slack\main\MainHeader.jsx:12 auth', 'color: #007acc;', auth);
     props.data &&
         (props.data.isDm === false ? props.data.name : props.data.members && props.data.members?.filter((v) => v._id !== auth._id));
     return (

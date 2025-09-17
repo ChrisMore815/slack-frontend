@@ -1,6 +1,6 @@
-import { HStack, Icon, Input } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
+import { HStack, Icon, Input } from "@chakra-ui/react";
 import icons from "src/constants/icons";
 
 const Header = () => {

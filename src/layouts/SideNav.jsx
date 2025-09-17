@@ -1,4 +1,5 @@
 import { useContext } from "react";
+
 import {
     Box,
     Icon,
@@ -12,12 +13,13 @@ import {
     PopoverContent,
     PopoverCloseButton,
 } from "@chakra-ui/react";
+
 import Badge from "src/components/Badge";
-import { sidenav } from "src/layoutssidenavconstants";
 import BadgeAvatar from "src/components/BadgeAvatar";
+import socketEvents from "src/constants/socketEvents";
+import { sidenav } from "src/layoutssidenavconstants";
 import { AuthContext } from "src/contexts/AuthProvider";
 import { SocketContext } from "src/contexts/SocketProvider";
-import socketEvents from "src/constants/socketEvents";
 
 const statusList = [
     { status: -1, displayText: "Logout" },

@@ -1,8 +1,10 @@
-import { VStack } from "@chakra-ui/react";
-import propTypes from "prop-types";
-import MessageView from "../../../components/MessageView";
 import { useContext } from "react";
-import { SocketContext } from "../../../contexts/SocketProvider";
+import propTypes from "prop-types";
+
+import { VStack } from "@chakra-ui/react";
+
+import MessageView from "src/components/MessageView";
+import { SocketContext } from "src/contexts/SocketProvider";
 
 const MainContent = (props) => {
     const { msg, status } = props;
