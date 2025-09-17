@@ -1,130 +1,130 @@
 export const emoticons = [
     {
         id: 1,
-        icon: "👍"
+        icon: "👍",
     },
     {
         id: 2,
-        icon: "👀"
+        icon: "👀",
     },
     {
         id: 3,
-        icon: "😃"
+        icon: "😃",
     },
     {
         id: 4,
-        icon: "😁"
+        icon: "😁",
     },
     {
         id: 5,
-        icon: "😘"
+        icon: "😘",
     },
     {
         id: 6,
-        icon: "😒"
+        icon: "😒",
     },
     {
         id: 7,
-        icon: "😍"
+        icon: "😍",
     },
     {
         id: 8,
-        icon: "🤣"
+        icon: "🤣",
     },
     {
         id: 9,
-        icon: "😂"
+        icon: "😂",
     },
     {
         id: 10,
-        icon: "😊"
+        icon: "😊",
     },
     {
         id: 11,
-        icon: "😉"
+        icon: "😉",
     },
     {
         id: 12,
-        icon: "😎"
+        icon: "😎",
     },
     {
         id: 13,
-        icon: "😢"
+        icon: "😢",
     },
     {
         id: 14,
-        icon: "😜"
+        icon: "😜",
     },
     {
         id: 15,
-        icon: "😆"
+        icon: "😆",
     },
     {
         id: 16,
-        icon: "🤔"
+        icon: "🤔",
     },
     {
         id: 17,
-        icon: "🤢"
+        icon: "🤢",
     },
     {
         id: 18,
-        icon: "👌"
+        icon: "👌",
     },
     {
         id: 19,
-        icon: "🙌"
+        icon: "🙌",
     },
     {
         id: 20,
-        icon: "✌"
+        icon: "✌",
     },
     {
         id: 21,
-        icon: "🤞"
+        icon: "🤞",
     },
     {
         id: 22,
-        icon: "💕"
+        icon: "💕",
     },
     {
         id: 23,
-        icon: "🤦‍♀️"
+        icon: "🤦‍♀️",
     },
     {
         id: 24,
-        icon: "🤦‍♂️"
+        icon: "🤦‍♂️",
     },
     {
         id: 25,
-        icon: "🤷‍♀️"
+        icon: "🤷‍♀️",
     },
     {
         id: 26,
-        icon: "🤷‍♂️"
+        icon: "🤷‍♂️",
     },
     {
         id: 27,
-        icon: "💖"
+        icon: "💖",
     },
     {
         id: 28,
-        icon: "👏"
+        icon: "👏",
     },
     {
         id: 29,
-        icon: "🌹"
+        icon: "🌹",
     },
     {
         id: 30,
-        icon: "🎉"
+        icon: "🎉",
     },
     {
         id: 31,
-        icon: "🎂"
+        icon: "🎂",
     },
     {
         id: 32,
-        icon: "🎁"
+        icon: "🎁",
     },
-]
+];

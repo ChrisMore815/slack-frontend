@@ -1,7 +1,7 @@
-import * as Bs from 'react-icons/bs';
-import * as Fa from 'react-icons/fa';
-import * as Md from 'react-icons/md';
-import * as Ti from 'react-icons/ti'
+import * as Bs from "react-icons/bs";
+import * as Fa from "react-icons/fa";
+import * as Md from "react-icons/md";
+import * as Ti from "react-icons/ti";
 
 const icons = {
     activity: <Fa.FaBell />,
@@ -41,6 +41,6 @@ const icons = {
     typeListBulleted: <Md.MdFormatListBulleted />,
     user: <Fa.FaUser />,
     voice: <Md.MdKeyboardVoice />,
-}
+};
 
 export default icons;

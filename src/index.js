@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import { createRoot } from "react-dom/client";
 import { ToastContainer } from 'react-toastify'
 import { ChakraProvider } from "@chakra-ui/react";
-import QueryProvider from './contexts/QueryProvider'
-// import ThemeProvider from "./contexts/ThemeProvider";
-import Loading from "./components/Loading";
-import App from "./AppWrapper";
-import "./index.css";
+import QueryProvider from 'src/contexts/QueryProvider'
+// import ThemeProvider from "src/contexts/ThemeProvider";
+import Loading from "src/components/Loading";
+import App from "src/AppWrapper";
+import "src/index.css";
 import 'react-toastify/dist/ReactToastify.css';
 
 createRoot(document.getElementById("root")).render(

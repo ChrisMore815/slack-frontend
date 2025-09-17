@@ -11,25 +11,25 @@ import { SocketContext } from "../../../contexts/SocketProvider";
 const Main = () => {
 
     const { auth } = useContext(AuthContext);
-    const { selectedCurChannel, selectedChMsg, showThread, userInfo, setUserInfo } = useContext(SocketContext);
+    const { selectedCurChannel, selectedChMsg, showThread, messageInfo, setMessageInfo } = useContext(SocketContext);
 
     const [status, setStatus] = useState('Messages');
 
     useEffect(() => {
         if (selectedCurChannel) {
             if (selectedCurChannel.isDm == false) {
-                setUserInfo({ ...userInfo, sender: auth._id, channelId: selectedCurChannel._id })
+                setMessageInfo({ ...messageInfo, sender: auth._id, channelId: selectedCurChannel._id })
             } else {
                 let temp = [];
                 selectedCurChannel.members?.forEach(member => temp.push(member._id));
-                setUserInfo({ ...userInfo, receivers: [...temp], channelId: selectedCurChannel._id })
+                setMessageInfo({ ...messageInfo, receivers: [...temp], channelId: selectedCurChannel._id })
             }
         }
     }, [selectedCurChannel])
 
     useEffect(() => {
         if (showThread) {
-            setUserInfo({ ...userInfo, parentId: showThread })
+            setMessageInfo({ ...messageInfo, parentId: showThread })
         }
     }, [showThread])
 

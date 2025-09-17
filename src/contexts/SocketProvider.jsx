@@ -2,17 +2,19 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import propTypes from "prop-types";
 import { io } from "socket.io-client";
 
-import api from "../libs/axios";
-import { AuthContext } from "./AuthProvider";
-import { serverUrl } from "../constants/serverUrl";
-import socketEvents, { status } from "../constants/socketEvents";
+import api from "src/libs/axios";
+import { AuthContext } from "src/contexts/AuthProvider";
+import socketEvents, { status } from "src/constants/socketEvents";
 
 export const SocketContext = createContext();
 
 const SocketProvider = (props) => {
     // const { users } = useUsers()
     const { auth, setAuth } = useContext(AuthContext);
-    const socket = useMemo(() => auth._id && io(`${serverUrl}`, { extraHeaders: { token: localStorage.getItem("token") } }), [auth._id]);
+    const socket = useMemo(
+        () => auth._id && io(`${process.env.REACT_APP_BASE_URL}`, { extraHeaders: { token: localStorage.getItem("token") } }),
+        [auth._id]
+    );
 
     const [allDms, setAllDms] = useState([]);
     const [allUsers, setAllUsers] = useState([]);
@@ -21,7 +23,7 @@ const SocketProvider = (props) => {
     const [selectedChMsg, setSelectedChMsg] = useState([]);
     const [selectedThread, setSelectedThread] = useState([]);
     const [selectedCurChannel, setSelectedCurChannel] = useState({});
-    const [userInfo, setUserInfo] = useState({
+    const [messageInfo, setMessageInfo] = useState({
         sender: null,
         channelId: null,
         receivers: [],
@@ -88,7 +90,6 @@ const SocketProvider = (props) => {
             });
             socket.on(socketEvents.CREATEMESSAGE, (state, data) => {
                 if (state == status.ON) {
-                    console.log(data);
                     if (data.parentId != null) setSelectedThread([...selectedThread, data]);
                     else setSelectedChMsg([...selectedChMsg, data]);
                 }
@@ -146,12 +147,12 @@ const SocketProvider = (props) => {
                 allDms,
                 socket,
                 allUsers,
-                userInfo,
                 showThread,
                 allChannels,
-                setUserInfo,
+                messageInfo,
                 selectedChMsg,
                 setShowThread,
+                setMessageInfo,
                 selectedThread,
                 setSelectedThread,
                 selectedCurChannel,

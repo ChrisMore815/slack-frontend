@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import propTypes from "prop-types";
-import { HStack, Image, VStack, Wrap, Text, Icon, Flex, Box } from "@chakra-ui/react";
 
-import icons from "../constants/icons";
-import Emoticons from "../components/Emoticons";
-import { serverUrl } from "../constants/serverUrl";
-import socketEvents from "../constants/socketEvents";
-import { AuthContext } from "../contexts/AuthProvider";
-import { SocketContext } from "../contexts/SocketProvider";
+import { HStack, Image, VStack, Wrap, Text, Icon, Flex } from "@chakra-ui/react";
+import icons from "src/constants/icons";
+
+import Emoticons from "src/components/Emoticons";
+import socketEvents from "src/constants/socketEvents";
+import { AuthContext } from "src/contexts/AuthProvider";
+import { SocketContext } from "src/contexts/SocketProvider";
 
 const MessageView = (props) => {
     const { curUser, msg } = props;
@@ -89,7 +89,7 @@ const MessageView = (props) => {
             onMouseLeave={() => handleLeave()}
             onMouseOver={() => handleShow(msg._id)}
         >
-            <Image w={"40px"} rounded={8} h={"40px"} src={`${serverUrl}/avatar/${curUser.avatar}`} />
+            <Image w={"40px"} rounded={8} h={"40px"} src={`${process.env.REACT_APP_BASE_URL}/avatar/${curUser.avatar}`} />
             <VStack flex={"1 1 0"} h={"100%"}>
                 <VStack h={"40px"} w={"100%"}>
                     <HStack w={"100%"} justify={"space-between"} pos={"relative"}>

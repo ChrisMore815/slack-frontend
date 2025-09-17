@@ -1,7 +1,7 @@
-import { HStack, VStack } from '@chakra-ui/react'
-import SideNav from './SideNav';
-import Header from './Header';
-import { Outlet } from 'react-router-dom';
+import { HStack, VStack } from "@chakra-ui/react";
+import SideNav from "src/layouts/SideNav";
+import Header from "src/layouts/Header";
+import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
     return (
@@ -12,7 +12,7 @@ const MainLayout = () => {
                 <Outlet />
             </VStack>
         </HStack>
-    )
-}
+    );
+};
 
 export default MainLayout;

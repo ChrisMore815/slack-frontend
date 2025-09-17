@@ -1,8 +1,8 @@
 import React from "react";
-const MainLayout = React.lazy(() => import('./MainLayout'))
+const MainLayout = React.lazy(() => import("src/layouts/MainLayout"));
 
 const Layouts = {
-    MainLayout
-}
+    MainLayout,
+};
 
-export default Layouts
+export default Layouts;

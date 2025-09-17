@@ -1,4 +1,4 @@
-import { ThemeProvider as Theme, theme, ColorModeProvider } from "@chakra-ui/react"
+import { ThemeProvider as Theme, theme, ColorModeProvider } from "@chakra-ui/react";
 // import { ColorModeProvider } from "@chakra-ui/color-mode";
 
 const ThemeProvider = ({ children }) => {
@@ -6,7 +6,7 @@ const ThemeProvider = ({ children }) => {
         <Theme theme={theme}>
             <ColorModeProvider>{children}</ColorModeProvider>
         </Theme>
-    )
-}
+    );
+};
 
 export default ThemeProvider;
